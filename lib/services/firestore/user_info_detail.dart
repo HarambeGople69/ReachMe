@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:myapp/injection/wrapper_injection.dart';
 import 'package:myapp/pages/home_page.dart';
 import 'package:myapp/widgets/custom_animated_alertdialog.dart';
 
@@ -45,6 +46,13 @@ class UserDetailFirestore {
         "total_connections": "",
         "user_name": name,
       }).then((value) {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return HomePage();
+        }));
+        UserUploadInjection().loginInjection();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -53,7 +61,8 @@ class UserDetailFirestore {
             ),
           ),
         );
-        Navigator.popAndPushNamed(context, '/screen4');
+        // Get.off(HomePage());
+        // Navigator.popAndPushNamed(context, '/screen4');
         // Navigator.popAndPushNamed(context, routeName)
       });
     } on FirebaseAuthException catch (e) {

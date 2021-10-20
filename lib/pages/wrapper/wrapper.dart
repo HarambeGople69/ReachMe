@@ -22,7 +22,7 @@ class _WrapperState extends State<Wrapper> {
 
   Widget checkname() {
     print("$x is the state=============================");
-    if (x == 0) {
+    if (widget.x == 0) {
       return HomePage();
     } else {
       return UserInfoPage();

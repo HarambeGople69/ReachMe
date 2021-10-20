@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/injection/wrapper_injection.dart';
+import 'package:myapp/pages/wrapper/outer_wrapper.dart';
 import 'package:myapp/services/firestore/user_info_detail.dart';
 import 'package:myapp/widgets/custom_animated_alertdialog.dart';
 
@@ -84,7 +85,11 @@ class EmailPasswordAuth {
         if (Navigator.canPop(context)) {
           Navigator.pop(context);
           print("can be popped 2");
+          print(FirebaseAuth.instance.currentUser!.uid);
         } else {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return OuterWrapper();
+          }));
           print("cannot be popped 2");
         }
         // Navigator.pop(context);
