@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/injection/wrapper_injection.dart';
-import 'package:myapp/pages/home_page.dart';
+import 'package:myapp/pages/screens/dashboard.dart';
 import 'package:myapp/widgets/custom_animated_alertdialog.dart';
 
 class UserDetailFirestore {
@@ -22,35 +22,45 @@ class UserDetailFirestore {
       var response = await FirebaseFirestore.instance
           .collection("Users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection("User Detail")
           .get();
 
-      var x = response.docs[0];
+      // var x = response.docs[0];
 
       AlertWidget().showLoading(context);
       await FirebaseFirestore.instance
           .collection("Users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .collection("User Detail")
-          .doc(x.id)
           .update({
-        "about": bio,
-        "activity": [],
-        "connection_request": [],
-        "connections": {},
-        "creation_date": currDate,
-        "creation_time": currTime,
+        // "about": bio,
+        // "activity": [],
+        // "connection_request": [],
+        // "connections": {},
+        // "creation_date": currDate,
+        // "creation_time": currTime,
+        // "phone_number": "",
+        // "profile_pic": "",
+        // "token": _getToken.toString(),
+        // "total_connections": "",
+        // "user_name": name,
+
+        "bio": bio,
+        // "activity": [],
+        // "connection_request": [],
+        // "connections": {},
+        // "creation_date": currDate,
+        // "creation_time": currTime,
+        "created_on": Timestamp.now(),
         "phone_number": "",
-        "profile_pic": "",
-        "token": _getToken.toString(),
-        "total_connections": "",
+        "profile_pic": imageUrl,
+        // "token": _getToken.toString(),
+        // "total_connections": "",
         "user_name": name,
       }).then((value) {
         Navigator.pop(context);
         Navigator.pop(context);
         Navigator.pop(context);
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return HomePage();
+          return DashBoard();
         }));
         UserUploadInjection().loginInjection();
         ScaffoldMessenger.of(context).showSnackBar(
@@ -87,18 +97,18 @@ class UserDetailFirestore {
     await FirebaseFirestore.instance
         .collection("Users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection("User Detail")
-        .add({
-      "about": "",
-      "activity": [],
-      "connection_request": [],
-      "connections": {},
-      "creation_date": currDate,
-      "creation_time": currTime,
+        .set({
+      "bio": "",
+      // "activity": [],
+      // "connection_request": [],
+      // "connections": {},
+      // "creation_date": currDate,
+      // "creation_time": currTime,
+      "created_on": Timestamp.now(),
       "phone_number": "",
       "profile_pic": "",
-      "token": _getToken.toString(),
-      "total_connections": "",
+      // "token": _getToken.toString(),
+      // "total_connections": "",
       "user_name": "",
     }).then((value) {});
   }

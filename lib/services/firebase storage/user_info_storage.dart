@@ -21,12 +21,12 @@ class UserProfileUpload {
         String filename = compressedFile.path.split('/').last;
         final uploadFile = await firebaseStorage
             .ref(
-                "${FirebaseAuth.instance.currentUser!.uid}/post_images/${filename}")
+                "${FirebaseAuth.instance.currentUser!.uid}/profile_image/${filename}")
             .putFile(compressedFile);
         if (uploadFile.state == TaskState.success) {
           downloadUrl = await firebaseStorage
               .ref(
-                  "${FirebaseAuth.instance.currentUser!.uid}/post_images/${filename}")
+                  "${FirebaseAuth.instance.currentUser!.uid}/profile_image/${filename}")
               .getDownloadURL();
           UserDetailFirestore().uploadDetail(name, bio, downloadUrl, context);
         }

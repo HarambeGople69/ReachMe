@@ -117,28 +117,35 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   OurSizedBox(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          // signInWithGoogle();
-                          GoogleSigninService().signIn(context);
-                        },
-                        child: Image.asset(
-                          "assets/images/google.png",
-                          height: ScreenUtil().setSp(55),
-                          width: ScreenUtil().setSp(55),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Image.asset(
-                        "assets/images/fbook.png",
-                        height: ScreenUtil().setSp(55),
-                        width: ScreenUtil().setSp(55),
-                        fit: BoxFit.cover,
-                      ),
-                    ],
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     InkWell(
+                  //       onTap: () {
+                  //         // signInWithGoogle();
+                  //         GoogleSigninService().signIn(context);
+                  //       },
+                  //       child: Image.asset(
+                  //         "assets/images/google.png",
+                  //         height: ScreenUtil().setSp(55),
+                  //         width: ScreenUtil().setSp(55),
+                  //         fit: BoxFit.cover,
+                  //       ),
+                  //     ),
+                  //     Image.asset(
+                  //       "assets/images/fbook.png",
+                  //       height: ScreenUtil().setSp(55),
+                  //       width: ScreenUtil().setSp(55),
+                  //       fit: BoxFit.cover,
+                  //     ),
+                  //   ],
+                  // ),
+
+                  Image.asset(
+                    "assets/images/google.png",
+                    height: ScreenUtil().setSp(55),
+                    width: ScreenUtil().setSp(55),
+                    fit: BoxFit.cover,
                   ),
                   OurSizedBox(),
                   Row(

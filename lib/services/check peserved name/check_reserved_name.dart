@@ -9,28 +9,26 @@ class CheckReservedName {
       String name, BuildContext context) async {
     try {
       AlertWidget().showLoading(context);
-      // final QuerySnapshot<Map<String, dynamic>> findResult =
-      //     await FirebaseFirestore.instance
-      //         .collection("Users")
-      //         .doc(FirebaseAuth.instance.currentUser!.uid)
-      //         .collection("User Detail")
-      //         .where("user_name", isEqualTo: name)
-      //         .get();
-      var findResult =
-          await FirebaseFirestore.instance.collection("Users").get();
-      for (var i = 0; i < findResult.docs.length; i++) {
-        var each_user = findResult.docs[i];
-        if (findResult.docs[i].data()["user_name" == name]) {
-          return false;
-        }
+      
+      QuerySnapshot findResult = await FirebaseFirestore.instance
+          .collection("Users")
+          .where("user_name", isEqualTo: name)
+          .get();
+      // ignore: unnecessary_null_comparison
+      if (findResult.docs.isEmpty) {
+       
+        Navigator.pop(context);
+
+        return true;
+      } else {
+        
+        Navigator.pop(context);
+
+        return false;
       }
-      Navigator.pop(context);
-      print("hello worlds");
-      return true;
     } on FirebaseException catch (e) {
       // Navigator.pop(context);
-      print("Error User already present");
-      print(e.message);
+     
       return false;
     }
   }

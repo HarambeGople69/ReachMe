@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_settings/app_settings.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,6 +12,7 @@ import 'package:myapp/services/firebase%20storage/user_info_storage.dart';
 import 'package:myapp/widgets/our_elevated_button.dart';
 import 'package:myapp/widgets/our_sizedbox.dart';
 import 'package:myapp/widgets/our_text_field.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class UserInfoPage extends StatefulWidget {
   const UserInfoPage({Key? key}) : super(key: key);
@@ -28,15 +30,30 @@ class _UserInfoPageState extends State<UserInfoPage> {
   File? file;
 
   pickImage() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-    );
+    Permission _permission = Permission.storage;
+    PermissionStatus _status = await _permission.request();
 
-    if (result != null) {
-      setState(() {});
-      file = File(result.files.single.path!);
-    } else {
-      // User canceled the picker
+    if (!_status.isGranted) {
+      await Permission.location.request();
+    }
+    if (_status.isPermanentlyDenied) {
+      AppSettings.openAppSettings();
+      print("=========================");
+    }
+
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+      );
+
+      if (result != null) {
+        setState(() {});
+        file = File(result.files.single.path!);
+      } else {
+        // User canceled the picker
+      }
+    } catch (e) {
+      print("$e =========");
     }
   }
 
@@ -80,13 +97,16 @@ class _UserInfoPageState extends State<UserInfoPage> {
                         borderRadius: BorderRadius.circular(
                           ScreenUtil().setSp(25),
                         ),
-                        child: Image.file(
-                          file!,
-                          height: ScreenUtil().setSp(150),
-                          width: ScreenUtil().setSp(
-                            150,
+                        child: Container(
+                          color: Colors.white,
+                          child: Image.file(
+                            file!,
+                            height: ScreenUtil().setSp(150),
+                            width: ScreenUtil().setSp(
+                              150,
+                            ),
+                            fit: BoxFit.contain,
                           ),
-                          fit: BoxFit.fitHeight,
                         ),
                       )
                     : ClipRRect(
@@ -99,6 +119,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                           width: ScreenUtil().setSp(
                             150,
                           ),
+                          fit: BoxFit.cover,
                         ),
                       ),
               ),
