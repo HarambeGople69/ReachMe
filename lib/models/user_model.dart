@@ -19,7 +19,7 @@ class UserModel {
 
   factory UserModel.fromJson(DocumentSnapshot querySnapshot) {
     return UserModel(
-      uid: querySnapshot.id,
+      uid: querySnapshot["uid"],
       user_name: querySnapshot["user_name"],
       profile_pic: querySnapshot["profile_pic"],
       phone_number: querySnapshot["phone_number"],

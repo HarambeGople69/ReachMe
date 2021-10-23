@@ -42,7 +42,7 @@ class UserDetailFirestore {
         // "token": _getToken.toString(),
         // "total_connections": "",
         // "user_name": name,
-
+        "uid":FirebaseAuth.instance.currentUser!.uid,
         "bio": bio,
         // "activity": [],
         // "connection_request": [],

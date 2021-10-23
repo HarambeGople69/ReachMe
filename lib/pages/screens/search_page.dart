@@ -108,7 +108,8 @@ class _SearchPageState extends State<SearchPage> {
                                   width: 150.h),
                             ),
                           );
-                        }))
+                        })
+                        )
                 : Expanded(
                     child: Center(
                       child: Lottie.asset(
