@@ -9,7 +9,7 @@ import 'package:myapp/models/post_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/services/firestore/comment_info_detail.dart';
 import 'package:myapp/services/firestore/post_info_detail.dart';
-import 'package:myapp/services/like_unlike_services/like_unlike.dart';
+import 'package:myapp/services/firestore/likeunlike_info_detail.dart';
 import 'package:myapp/widgets/our_text_field.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'our_sizedbox.dart';
