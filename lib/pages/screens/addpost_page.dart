@@ -4,6 +4,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:myapp/services/firebase%20storage/post_info_storage.dart';
 import 'package:myapp/widgets/our_elevated_button.dart';
 import 'package:myapp/widgets/our_sizedbox.dart';
@@ -26,6 +27,7 @@ class _AddPostState extends State<AddPost> {
   File? file;
   bool uploading = false;
   String currentAddress = '';
+  // bool progress = false;
 
   pickImage() async {
     Permission _permission = Permission.storage;
@@ -102,163 +104,165 @@ class _AddPostState extends State<AddPost> {
           ),
           centerTitle: true,
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            margin: EdgeInsets.symmetric(
-              horizontal: ScreenUtil().setSp(20),
-              vertical: ScreenUtil().setSp(20),
-            ),
-            child: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  Center(
-                    child: file != null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                              ScreenUtil().setSp(25),
-                            ),
-                            child: Container(
-                              color: Colors.white,
-                              child: Image.file(
-                                file!,
-                                height: ScreenUtil().setSp(250),
-                                width: ScreenUtil().setSp(
-                                  250,
+        body: ModalProgressHUD(
+            inAsyncCall: uploading,
+            child: SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil().setSp(20),
+                  vertical: ScreenUtil().setSp(20),
+                ),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      Center(
+                        child: file != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(
+                                  ScreenUtil().setSp(25),
                                 ),
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          )
-                        : ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                              ScreenUtil().setSp(25),
-                            ),
-                            child: Container(
-                              color: Colors.white,
-                              child: Image.asset(
-                                "assets/images/image_place_holder.png",
-                                height: ScreenUtil().setSp(250),
-                                width: ScreenUtil().setSp(
-                                  250,
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                  ),
-                  OurSizedBox(),
-                  OutlinedButton(
-                    style: ButtonStyle(
-                        padding: MaterialStateProperty.all(
-                      EdgeInsets.symmetric(
-                        horizontal: ScreenUtil().setSp(20),
-                        vertical: ScreenUtil().setSp(10),
-                      ),
-                    )),
-                    onPressed: () {
-                      pickImage();
-                    },
-                    child: Text(
-                      "Pick image",
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(
-                          17.5,
-                        ),
-                      ),
-                    ),
-                  ),
-                  OurSizedBox(),
-                  CustomTextField(
-                    controller: _caption_controller,
-                    validator: (value) {
-                      if (value.isNotEmpty) {
-                        return null;
-                      } else {
-                        return "Can't be empty";
-                      }
-                    },
-                    title: "Add description",
-                    type: TextInputType.name,
-                    number: 1,
-                  ),
-                  OurSizedBox(),
-                  uploading == false
-                      ? OurElevatedButton(
-                          title: "Post",
-                          function: () async {
-                            if (file == null) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  backgroundColor: Colors.red,
-                                  content: Text(
-                                    "Picture not selected",
-                                    style: TextStyle(
-                                        fontSize: ScreenUtil().setSp(15)),
+                                child: Container(
+                                  color: Colors.white,
+                                  child: Image.file(
+                                    file!,
+                                    height: ScreenUtil().setSp(250),
+                                    width: ScreenUtil().setSp(
+                                      250,
+                                    ),
+                                    fit: BoxFit.contain,
                                   ),
                                 ),
-                              );
-                            } else {
-                              if (formKey.currentState!.validate()) {
-                                setState(() {
-                                  uploading = true;
-                                });
-                                await getUserLocation();
-                                await PostUpload().uploadPost(
-                                    _caption_controller.text.trim(),
-                                    file,
-                                    context,
-                                    currentAddress);
-                                setState(() {
-                                  file = null;
-                                  _caption_controller.clear();
-                                  uploading = false;
-                                });
-                              }
-                            }
-                          },
-                        )
-                      : ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                            ScreenUtil().setSp(30),
+                              )
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(
+                                  ScreenUtil().setSp(25),
+                                ),
+                                child: Container(
+                                  color: Colors.white,
+                                  child: Image.asset(
+                                    "assets/images/image_place_holder.png",
+                                    height: ScreenUtil().setSp(250),
+                                    width: ScreenUtil().setSp(
+                                      250,
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                      ),
+                      OurSizedBox(),
+                      OutlinedButton(
+                        style: ButtonStyle(
+                            padding: MaterialStateProperty.all(
+                          EdgeInsets.symmetric(
+                            horizontal: ScreenUtil().setSp(20),
+                            vertical: ScreenUtil().setSp(10),
                           ),
-                          child: Container(
-                            height: ScreenUtil().setSp(50),
-                            width: MediaQuery.of(context).size.width * 0.5,
-                            child: ElevatedButton(
-                                onPressed: () {},
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: ScreenUtil().setSp(
-                                        20,
-                                      ),
-                                      height: ScreenUtil().setSp(20),
-                                      child: CircularProgressIndicator(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: ScreenUtil().setSp(
-                                        10,
-                                      ),
-                                    ),
-                                    Text(
-                                      "Uploading",
-                                      style: TextStyle(
-                                        fontSize: ScreenUtil().setSp(
-                                          24,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )),
+                        )),
+                        onPressed: () {
+                          pickImage();
+                        },
+                        child: Text(
+                          "Pick image",
+                          style: TextStyle(
+                            fontSize: ScreenUtil().setSp(
+                              17.5,
+                            ),
                           ),
                         ),
-                ],
+                      ),
+                      OurSizedBox(),
+                      CustomTextField(
+                        controller: _caption_controller,
+                        validator: (value) {
+                          if (value.isNotEmpty) {
+                            return null;
+                          } else {
+                            return "Can't be empty";
+                          }
+                        },
+                        title: "Add description",
+                        type: TextInputType.name,
+                        number: 1,
+                      ),
+                      OurSizedBox(),
+                      uploading == false
+                          ? OurElevatedButton(
+                              title: "Post",
+                              function: () async {
+                                if (file == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      backgroundColor: Colors.red,
+                                      content: Text(
+                                        "Picture not selected",
+                                        style: TextStyle(
+                                            fontSize: ScreenUtil().setSp(15)),
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  if (formKey.currentState!.validate()) {
+                                    setState(() {
+                                      uploading = true;
+                                    });
+                                    await getUserLocation();
+                                    await PostUpload().uploadPost(
+                                        _caption_controller.text.trim(),
+                                        file,
+                                        context,
+                                        currentAddress);
+                                    setState(() {
+                                      file = null;
+                                      _caption_controller.clear();
+                                      uploading = false;
+                                    });
+                                  }
+                                }
+                              },
+                            )
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                ScreenUtil().setSp(30),
+                              ),
+                              child: Container(
+                                height: ScreenUtil().setSp(50),
+                                width: MediaQuery.of(context).size.width * 0.5,
+                                child: ElevatedButton(
+                                    onPressed: () {},
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: ScreenUtil().setSp(
+                                            20,
+                                          ),
+                                          height: ScreenUtil().setSp(20),
+                                          child: CircularProgressIndicator(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: ScreenUtil().setSp(
+                                            10,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Uploading",
+                                          style: TextStyle(
+                                            fontSize: ScreenUtil().setSp(
+                                              24,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )),
+                              ),
+                            ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
-        ));
+            )));
   }
 }

@@ -49,7 +49,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           FocusScope.of(context).unfocus();
         }
       },
-      // onChanged: (String value) => widget.onchange!(value),
+      onChanged: (String value) => widget.onchange ?? (value),
       validator: (String? value) => widget.validator(value!),
       style: TextStyle(fontSize: ScreenUtil().setSp(15)),
       keyboardType: widget.type,

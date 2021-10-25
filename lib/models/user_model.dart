@@ -5,10 +5,12 @@ class UserModel {
   final String profile_pic;
   final String phone_number;
   final Timestamp created_on;
+  final int post;
   final String bio;
   final String uid;
 
   UserModel({
+    required this.post,
     required this.user_name,
     required this.profile_pic,
     required this.phone_number,
@@ -19,6 +21,7 @@ class UserModel {
 
   factory UserModel.fromJson(DocumentSnapshot querySnapshot) {
     return UserModel(
+      post: querySnapshot["post"],
       uid: querySnapshot["uid"],
       user_name: querySnapshot["user_name"],
       profile_pic: querySnapshot["profile_pic"],

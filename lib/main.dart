@@ -7,12 +7,13 @@ import 'package:get_storage/get_storage.dart';
 import 'package:myapp/pages/splash_page.dart';
 
 // SHA1 6b:4e:8d:a6:4b:70:f9:48:60:6e:a1:5a:83:01:9c:38:db:2f:2b:98
-//SHA 256 91:ac:ce:09:13:30:86:28:ad:d0:72:ba:b5:27:18:4b:31:ba:b7:57:32:4e:41:d3:8e:ec:51:28:7f:da:d2:64
+// SHA 256 91:ac:ce:09:13:30:86:28:ad:d0:72:ba:b5:27:18:4b:31:ba:b7:57:32:4e:41:d3:8e:ec:51:28:7f:da:d2:64
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await GetStorage.init();
+  
   runApp(
     const MyApp(),
   );

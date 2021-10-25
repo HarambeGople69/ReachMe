@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/models/user_model.dart';
+import 'package:myapp/pages/screens/edit_profile_page.dart';
 import 'package:myapp/widgets/our_outline_button.dart';
 
 import 'our_follow_column.dart';
@@ -38,7 +39,7 @@ class UserProfileHeader extends StatelessWidget {
                           ),
                           height: ScreenUtil().setSp(60),
                           width: ScreenUtil().setSp(60),
-                          fit: BoxFit.fitHeight,
+                          fit: BoxFit.contain,
                           //   )
                         )
                       : CircleAvatar(
@@ -92,7 +93,7 @@ class UserProfileHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   OurFollowersColumn(
-                    number: 0,
+                    number: userModel.post,
                     title: "Post",
                   ),
                   OurFollowersColumn(
@@ -108,7 +109,17 @@ class UserProfileHeader extends StatelessWidget {
               OurSizedBox(),
               OurOutlineButton(
                 title: "Upload Profile",
-                function: () {},
+                function: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return EditProfilePage(userModel: userModel);
+                      },
+                      fullscreenDialog: true,
+                    ),
+                  );
+                },
               ),
             ],
           ),

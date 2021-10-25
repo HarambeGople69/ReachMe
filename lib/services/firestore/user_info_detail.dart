@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/injection/wrapper_injection.dart';
+import 'package:myapp/models/user_model.dart';
 import 'package:myapp/pages/screens/dashboard.dart';
 import 'package:myapp/widgets/custom_animated_alertdialog.dart';
 
@@ -42,7 +45,7 @@ class UserDetailFirestore {
         // "token": _getToken.toString(),
         // "total_connections": "",
         // "user_name": name,
-        "uid":FirebaseAuth.instance.currentUser!.uid,
+        "uid": FirebaseAuth.instance.currentUser!.uid,
         "bio": bio,
         // "activity": [],
         // "connection_request": [],
@@ -98,6 +101,7 @@ class UserDetailFirestore {
         .collection("Users")
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .set({
+      "post": 0,
       "bio": "",
       // "activity": [],
       // "connection_request": [],
@@ -111,5 +115,87 @@ class UserDetailFirestore {
       // "total_connections": "",
       "user_name": "",
     }).then((value) {});
+  }
+
+  postAdded(UserModel userModel) async {
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update(
+      {
+        "post": userModel.post + 1,
+      },
+    );
+  }
+
+// QBswiEhKh4
+  editProfile(
+      String name, String bio, String imageUrl, UserModel userModel) async {
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({
+      "bio": bio,
+      "profile_pic": imageUrl,
+      "user_name": name,
+    });
+    List<String> docResult = [];
+
+    await FirebaseFirestore.instance
+        .collection("Posts")
+        .where("ownerId", isEqualTo: userModel.uid)
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        docResult.add(element.id);
+      });
+      docResult.forEach((element) async {
+        await FirebaseFirestore.instance
+            .collection("Posts")
+            .doc(element)
+            .update({
+          "profile_pic": imageUrl,
+          "user_name": name,
+        });
+      });
+      print("Harameb gople ====================");
+    });
+
+    List<String> CommentResult = [];
+    List<String> CommentResultId = [];
+
+    await FirebaseFirestore.instance
+        .collection("Posts")
+        // .where("ownerId", isEqualTo: userModel.uid)
+        .get()
+        .then((value) {
+      value.docs.forEach((element) async {
+        CommentResult.add(element.id);
+      });
+      print("Harameb gople ====================");
+    });
+    CommentResult.forEach((element) async {
+      await FirebaseFirestore.instance
+          .collection("Posts")
+          .doc(element)
+          .collection("Comments")
+          .where("ownerId", isEqualTo: userModel.uid)
+          .get()
+          .then((value) {
+        value.docs.forEach((element1) async {
+          print(element1.id + " From top");
+
+          await FirebaseFirestore.instance
+              .collection("Posts")
+              .doc(element)
+              .collection("Comments")
+              .doc(element1.id)
+              .update({
+            "user_name": name,
+            "profile_pic": imageUrl,
+          });
+        });
+      });
+    });
   }
 }

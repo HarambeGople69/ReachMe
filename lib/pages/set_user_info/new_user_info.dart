@@ -82,15 +82,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
                 ),
               ),
               OurSizedBox(),
-              // Center(
-              //   child: Lottie.asset(
-              //     'assets/animations/userprofile.json',
-              //     fit: BoxFit.cover,
-              //     height: ScreenUtil().setSp(150),
-              //     width: ScreenUtil().setSp(150),
-              //   ),
-              // ),
-              // OurSizedBox(),
+              
               Center(
                 child: file != null
                     ? ClipRRect(

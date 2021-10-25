@@ -84,10 +84,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 StreamBuilder(
                                     stream: FirebaseFirestore.instance
                                         .collection("Posts")
-                                        .doc(FirebaseAuth
-                                            .instance.currentUser!.uid)
-                                        .collection("User Posts")
-                                        .orderBy("timestamp", descending: true)
+                                        .where("ownerId",
+                                            isEqualTo: userModel.uid)
+                                        // .orderBy("timestamp", descending: true)
                                         .snapshots(),
                                     builder: (context,
                                         AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -104,8 +103,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                     PostModel.fromJson(snapshot
                                                         .data!.docs[index]);
                                                 return OurPostTile(
+                                                    postModel: postModel,
                                                     userModel: userModel,
-                                                    postModel: postModel);
+                                                    );
                                               });
                                         }
                                       }
