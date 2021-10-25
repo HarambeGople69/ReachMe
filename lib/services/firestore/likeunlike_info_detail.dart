@@ -4,28 +4,6 @@ import 'package:myapp/models/user_model.dart';
 
 class LikeDetailFirebase {
   like_unlike(PostModel postModel, UserModel userModel) async {
-    // List<String> LikeList = [];
-    // await FirebaseFirestore.instance.collection("Posts").get().then((value) {
-    //   value.docs.forEach((element) {
-    //     LikeList.add(element.id);
-    //     print(element.id);
-    //   });
-    // });
-
-    // LikeList.forEach((element) {
-
-    // });
-    // PostModel mypost = PostModel.fromJson(await FirebaseFirestore.instance
-    //     .collection("Posts")
-    //     .doc(postModel.postId)
-    //     .get());
-    // List a = [];
-
-    // if (a.contains("element")) {
-    //   print("Contains contains");
-    // } else {
-    //   print("Doesn't contains");
-    // }
     if (postModel.likes.contains(userModel.uid) == true) {
       await FirebaseFirestore.instance
           .collection("Posts")
@@ -45,5 +23,14 @@ class LikeDetailFirebase {
       });
       print("Doesn't contains");
     }
+  }
+
+  like_unlike_profile(PostModel postModel) {
+    List x = [];
+    // x.map((e) => null)
+    // x.forEach((element) { })
+    postModel.likes.forEach((e) {
+      print(e);
+    });
   }
 }
