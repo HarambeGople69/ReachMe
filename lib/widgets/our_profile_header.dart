@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/models/user_model.dart';
@@ -107,20 +108,35 @@ class UserProfileHeader extends StatelessWidget {
                 ],
               ),
               OurSizedBox(),
-              OurOutlineButton(
-                title: "Upload Profile",
-                function: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return EditProfilePage(userModel: userModel);
+              userModel.uid == FirebaseAuth.instance.currentUser!.uid
+                  ? OurOutlineButton(
+                      title: "Upload Profile",
+                      function: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return EditProfilePage(userModel: userModel);
+                            },
+                            fullscreenDialog: true,
+                          ),
+                        );
                       },
-                      fullscreenDialog: true,
+                    )
+                  : OurOutlineButton(
+                      title: "Follow",
+                      function: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) {
+                        //       return EditProfilePage(userModel: userModel);
+                        //     },
+                        //     fullscreenDialog: true,
+                        //   ),
+                        // );
+                      },
                     ),
-                  );
-                },
-              ),
             ],
           ),
         )

@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:myapp/models/post_model.dart';
 import 'package:myapp/models/user_model.dart';
 
 class LikeDetailFirebase {
-  like_unlike(PostModel postModel, UserModel userModel) async {
-    if (postModel.likes.contains(userModel.uid) == true) {
+  like_unlike(PostModel postModel) async {
+    if (postModel.likes.contains(FirebaseAuth.instance.currentUser!.uid) == true) {
       await FirebaseFirestore.instance
           .collection("Posts")
           .doc(postModel.postId)
           .update({
-        "likes": FieldValue.arrayRemove([userModel.uid]),
+        "likes": FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid]),
         "likeNumber": postModel.likeNumber - 1,
       });
       print("Contains contains");
@@ -18,7 +19,7 @@ class LikeDetailFirebase {
           .collection("Posts")
           .doc(postModel.postId)
           .update({
-        "likes": FieldValue.arrayUnion([userModel.uid]),
+        "likes": FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid]),
         "likeNumber": postModel.likeNumber + 1,
       });
       print("Doesn't contains");

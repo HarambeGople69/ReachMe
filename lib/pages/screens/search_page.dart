@@ -4,9 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/widgets/our_profile_tile.dart';
-import 'package:myapp/widgets/our_sizedbox.dart';
 import 'package:myapp/widgets/our_text_field.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);

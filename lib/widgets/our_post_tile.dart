@@ -95,7 +95,7 @@ class _OurPostTileState extends State<OurPostTile> {
               ],
             ),
             Spacer(),
-            widget.postModel.OwnerId == widget.userModel.uid
+            widget.postModel.OwnerId == FirebaseAuth.instance.currentUser!.uid
                 ? Icon(
                     Icons.more_vert,
                     size: ScreenUtil().setSp(
@@ -157,15 +157,21 @@ class _OurPostTileState extends State<OurPostTile> {
               // ),
               InkWell(
                 onLongPress: () {
-                  LikeBottomSheet(context);
+                  List x = [];
+                  widget.postModel.likes
+                    ..forEach((e) {
+                      x.add(e);
+                    });
+                  LikeBottomSheet(context, x);
                 },
                 onTap: () {
                   // LikeDetailFirebase().like_unlike_profile(widget.postModel);
-                  LikeDetailFirebase()
-                      .like_unlike(widget.postModel, widget.userModel);
+                  LikeDetailFirebase().like_unlike(widget.postModel);
                 },
                 child: Icon(
-                  widget.postModel.likes.contains(widget.userModel.uid) == true
+                  widget.postModel.likes.contains(
+                              FirebaseAuth.instance.currentUser!.uid) ==
+                          true
                       ? FontAwesomeIcons.heartbeat
                       : FontAwesomeIcons.heart,
                   color: Colors.red,
@@ -255,7 +261,7 @@ class _OurPostTileState extends State<OurPostTile> {
                               .collection("Posts")
                               .doc(widget.postModel.postId)
                               .collection("Comments")
-                              .orderBy("timestamp", descending: true)
+                              .orderBy("timestamp", descending: false)
                               .snapshots(),
                           builder:
                               (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -311,7 +317,7 @@ class _OurPostTileState extends State<OurPostTile> {
                                                             backgroundColor:
                                                                 Colors.white,
                                                             radius: ScreenUtil()
-                                                                .setSp(25),
+                                                                .setSp(20),
                                                             child: Text(
                                                               commentModel
                                                                   .user_name[0],
@@ -368,7 +374,10 @@ class _OurPostTileState extends State<OurPostTile> {
                                                       CrossAxisAlignment.end,
                                                   children: [
                                                     commentModel.ownerId ==
-                                                            widget.userModel.uid
+                                                            FirebaseAuth
+                                                                .instance
+                                                                .currentUser!
+                                                                .uid
                                                         ? InkWell(
                                                             onTap: () async {
                                                               await CommentDetailFirebase()
@@ -464,12 +473,7 @@ class _OurPostTileState extends State<OurPostTile> {
         });
   }
 
-  void LikeBottomSheet(context) {
-    List x = [];
-    widget.postModel.likes
-      ..forEach((e) {
-        x.add(e);
-      });
+  void LikeBottomSheet(context, List x) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -480,19 +484,19 @@ class _OurPostTileState extends State<OurPostTile> {
               horizontal: ScreenUtil().setSp(20),
               vertical: ScreenUtil().setSp(15),
             ),
-            child: Column(
-              children: [
-                OurSizedBox(),
-                Text(
-                  "Likes",
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(25),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  OurSizedBox(),
+                  Text(
+                    "Likes",
+                    style: TextStyle(
+                      fontSize: ScreenUtil().setSp(25),
+                    ),
                   ),
-                ),
-                Divider(),
-                OurSizedBox(),
-                Expanded(
-                  child: Column(
+                  Divider(),
+                  OurSizedBox(),
+                  Column(
                       children: x.map((item) {
                     return StreamBuilder(
                         stream: FirebaseFirestore.instance
@@ -529,7 +533,7 @@ class _OurPostTileState extends State<OurPostTile> {
                                             )
                                           : CircleAvatar(
                                               backgroundColor: Colors.white,
-                                              radius: ScreenUtil().setSp(25),
+                                              radius: ScreenUtil().setSp(20),
                                               child: Text(
                                                 userModel.user_name[0],
                                                 style: TextStyle(
@@ -576,9 +580,9 @@ class _OurPostTileState extends State<OurPostTile> {
                             ],
                           );
                         });
-                  }).toList()),
-                )
-              ],
+                  }).toList())
+                ],
+              ),
             ),
           );
         });
