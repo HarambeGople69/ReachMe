@@ -97,25 +97,21 @@ class _SearchPageState extends State<SearchPage> {
                               );
                             }
                           }
-                          return Expanded(
-                            child: Center(
-                              child: Lottie.asset(
-                                  'assets/animations/search_animation.json',
-                                  fit: BoxFit.cover,
-                                  height: 150.h,
-                                  width: 150.h),
-                            ),
+                          return Center(
+                            child: Lottie.asset(
+                                'assets/animations/search_animation.json',
+                                fit: BoxFit.cover,
+                                height: 150.h,
+                                width: 150.h),
                           );
-                        })
-                        )
-                : Expanded(
-                    child: Center(
-                      child: Lottie.asset(
-                          'assets/animations/search_animation.json',
-                          fit: BoxFit.cover,
-                          height: 150.h,
-                          width: 150.h),
-                    ),
+                        }),
+                  )
+                : Center(
+                    child: Lottie.asset(
+                        'assets/animations/search_animation.json',
+                        fit: BoxFit.cover,
+                        height: 150.h,
+                        width: 150.h),
                   ),
           ],
         ),

@@ -50,7 +50,7 @@ class UserProfileHeader extends StatelessWidget {
                             userModel.user_name[0],
                             style: TextStyle(
                               fontSize: ScreenUtil().setSp(
-                                30,
+                                20,
                               ),
                             ),
                           ),

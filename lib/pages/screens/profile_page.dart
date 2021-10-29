@@ -56,7 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
         body: SafeArea(
           child: Container(
             margin: EdgeInsets.symmetric(
-              horizontal: ScreenUtil().setSp(20),
+              horizontal: ScreenUtil().setSp(15),
               vertical: ScreenUtil().setSp(5),
             ),
             child: StreamBuilder<QuerySnapshot>(
@@ -81,12 +81,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: [
                                 UserProfileHeader(userModel: userModel),
                                 Divider(),
+                                OurSizedBox(),
                                 StreamBuilder(
                                     stream: FirebaseFirestore.instance
                                         .collection("Posts")
-                                        // .orderBy("timestamp", descending: true)
-                                        .where("ownerId",
-                                            isEqualTo: userModel.uid)
+                                        // .where("ownerId",
+                                        //     isEqualTo: userModel.uid)
+                                        .orderBy("timestamp", descending: true)
                                         .snapshots(),
                                     builder: (context,
                                         AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -102,10 +103,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 PostModel postModel =
                                                     PostModel.fromJson(snapshot
                                                         .data!.docs[index]);
-                                                return OurPostTile(
-                                                  postModel: postModel,
-                                                  userModel: userModel,
-                                                );
+                                                return postModel.OwnerId ==
+                                                        FirebaseAuth.instance
+                                                            .currentUser!.uid
+                                                    ? OurPostTile(
+                                                        postModel: postModel,
+                                                        // userModel: userModel,
+                                                      )
+                                                    : Container();
                                               });
                                         }
                                       }
@@ -120,10 +125,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       );
                     }
                   }
-                  return Expanded(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                  return Center(
+                    child: CircularProgressIndicator(),
                   );
                 }),
           ),

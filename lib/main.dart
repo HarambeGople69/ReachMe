@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart'; 
+import 'package:get_storage/get_storage.dart';
 import 'package:myapp/pages/splash_page.dart';
 
 // SHA1 6b:4e:8d:a6:4b:70:f9:48:60:6e:a1:5a:83:01:9c:38:db:2f:2b:98
@@ -13,14 +13,14 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await GetStorage.init();
-  
+
   runApp(
     const MyApp(),
   );
 }
 
 // void main() {
-//   runApp(MyApp()); 
+//   runApp(MyApp());
 // }
 
 class MyApp extends StatelessWidget {
@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         // ignore: prefer_const_constructors
         home: SplashPage(),
-        
       ),
     );
   }

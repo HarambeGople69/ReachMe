@@ -43,6 +43,7 @@ class PasswordForm extends StatelessWidget {
         controller: controller,
         obscureText: see!,
         decoration: InputDecoration(
+          isDense: true,
           prefixIcon: Icon(
             Icons.lock,
             size: ScreenUtil().setSp(20),

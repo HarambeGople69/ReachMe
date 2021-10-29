@@ -44,8 +44,8 @@ class _ViewProfileState extends State<ViewProfile> {
                   StreamBuilder(
                       stream: FirebaseFirestore.instance
                           .collection("Posts")
-                          .where("ownerId", isEqualTo: widget.userModel.uid)
-                          // .orderBy("timestamp", descending: true)
+                          // .where("ownerId", isEqualTo: widget.userModel.uid)
+                          .orderBy("timestamp", descending: true)
                           .snapshots(),
                       builder:
                           (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -58,10 +58,13 @@ class _ViewProfileState extends State<ViewProfile> {
                                 itemBuilder: (context, index) {
                                   PostModel postModel = PostModel.fromJson(
                                       snapshot.data!.docs[index]);
-                                  return OurPostTile(
-                                    postModel: postModel,
-                                    userModel: widget.userModel,
-                                  );
+                                  return postModel.OwnerId ==
+                                          widget.userModel.uid
+                                      ? OurPostTile(
+                                          postModel: postModel,
+                                          // userModel: widget.userModel,
+                                        )
+                                      : Container();
                                 });
                           }
                         }

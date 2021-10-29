@@ -6,16 +6,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/models/comment_model.dart';
 import 'package:myapp/models/post_model.dart';
 import 'package:myapp/models/user_model.dart';
+import 'package:myapp/services/firestore/notification_indo_detail.dart';
 import 'package:uuid/uuid.dart';
 
 class CommentDetailFirebase {
   uploadDetail(String comment, PostModel postModel) async {
     try {
       String uid = Uuid().v4();
+      await FirebaseFirestore.instance
+          .collection("Posts")
+          .doc(postModel.postId)
+          .update({
+        "commentNumber": postModel.commentNumber + 1,
+      });
       UserModel userModel = UserModel.fromJson(await FirebaseFirestore.instance
           .collection("Users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .get());
+
       await FirebaseFirestore.instance
           .collection("Posts")
           .doc(postModel.postId)
@@ -28,14 +36,11 @@ class CommentDetailFirebase {
         "comment": comment,
         "commentId": uid,
         "timestamp": Timestamp.now(),
-      }).then((value) async {
-        await FirebaseFirestore.instance
-            .collection("Posts")
-            .doc(postModel.postId)
-            .update({
-          "commentNumber": postModel.commentNumber + 1,
-        });
       });
+      if (FirebaseAuth.instance.currentUser!.uid != postModel.OwnerId) {
+        await NotificationDetailFirebase()
+            .commentUpload(comment, postModel, uid);
+      }
     } catch (e) {}
   }
 
@@ -54,6 +59,14 @@ class CommentDetailFirebase {
           .update({
         "commentNumber": postModel.commentNumber - 1,
       });
+      if (commentModel.ownerId != postModel.OwnerId) {
+        await FirebaseFirestore.instance
+            .collection("Notification")
+            .doc(postModel.OwnerId)
+            .collection("Notify")
+            .doc(commentModel.commentId)
+            .delete();
+      }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(

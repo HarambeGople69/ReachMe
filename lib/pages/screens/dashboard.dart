@@ -1,10 +1,11 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/pages/screens/addpost_page.dart';
 import 'package:myapp/pages/screens/home_page.dart';
-import 'package:myapp/pages/screens/message_page.dart';
+import 'package:myapp/pages/screens/notification.dart';
 import 'package:myapp/pages/screens/profile_page.dart';
 import 'package:myapp/pages/screens/search_page.dart';
 import 'package:myapp/services/authentication_service/email_password_service.dart';
@@ -41,7 +42,7 @@ class _DashBoardState extends State<DashBoard> {
         return AddPost();
         break;
       case 3:
-        return MessagePage();
+        return NotificationPage();
         break;
       case 4:
         return ProfilePage();
@@ -76,8 +77,8 @@ class _DashBoardState extends State<DashBoard> {
             title: 'Add',
           ),
           TabItem(
-            icon: Icons.message,
-            title: 'Message',
+            icon: Icons.notification_important,
+            title: 'Notification',
           ),
           TabItem(
             icon: Icons.people,

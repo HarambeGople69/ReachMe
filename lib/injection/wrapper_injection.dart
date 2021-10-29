@@ -1,3 +1,5 @@
+
+
 import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -8,6 +10,7 @@ class UserUploadInjection {
     box.write("state", 1);
     print(
         box.read("state").toString() + " is from widget injection registered");
+        
   }
 
   loginInjection() {
