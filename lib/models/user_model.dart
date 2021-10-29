@@ -8,8 +8,16 @@ class UserModel {
   final int post;
   final String bio;
   final String uid;
+  final int follower;
+  final int following;
+  final List followerList;
+  final List followingList;
 
   UserModel({
+    required this.followerList,
+    required this.followingList,
+    required this.follower,
+    required this.following,
     required this.post,
     required this.user_name,
     required this.profile_pic,
@@ -28,6 +36,10 @@ class UserModel {
       phone_number: querySnapshot["phone_number"],
       created_on: querySnapshot["created_on"],
       bio: querySnapshot["bio"],
+      follower: querySnapshot["follower"],
+      following: querySnapshot["following"],
+      followerList: querySnapshot["followerList"],
+      followingList: querySnapshot["followingList"],
     );
   }
 }

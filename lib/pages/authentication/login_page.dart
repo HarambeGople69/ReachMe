@@ -155,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                         "Don't have an account? ",
                         style: TextStyle(
                           fontSize: ScreenUtil().setSp(
-                            13.5,
+                            17.5,
                           ),
                         ),
                       ),
@@ -170,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                           "Sign up.",
                           style: TextStyle(
                             fontSize: ScreenUtil().setSp(
-                              13.5,
+                              17.5,
                             ),
                             color: Colors.amber,
                           ),

@@ -14,7 +14,8 @@ class OurProfileTile extends StatelessWidget {
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return ViewProfile(
-            userModel: userModel,
+            uid: userModel.uid,
+            userModel: userModel
           );
         }));
       },

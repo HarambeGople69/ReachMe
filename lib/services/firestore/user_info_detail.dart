@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -102,17 +101,14 @@ class UserDetailFirestore {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .set({
       "post": 0,
+      "follower":0,
+      "following":0,
       "bio": "",
-      // "activity": [],
-      // "connection_request": [],
-      // "connections": {},
-      // "creation_date": currDate,
-      // "creation_time": currTime,
       "created_on": Timestamp.now(),
       "phone_number": "",
       "profile_pic": "",
-      // "token": _getToken.toString(),
-      // "total_connections": "",
+      "followerList":[],
+      "followingList":[],
       "user_name": "",
     }).then((value) {});
   }

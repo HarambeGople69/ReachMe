@@ -8,12 +8,15 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/models/post_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/services/authentication_service/email_password_service.dart';
+import 'package:myapp/services/firestore/follow_unfollow_info_detail.dart';
 import 'package:myapp/widgets/our_follow_column.dart';
 import 'package:myapp/widgets/our_outline_button.dart';
 import 'package:myapp/widgets/our_post_tile.dart';
 import 'package:myapp/widgets/our_profile_header.dart';
 import 'package:myapp/widgets/our_profile_tile.dart';
 import 'package:myapp/widgets/our_sizedbox.dart';
+
+import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -79,7 +82,157 @@ class _ProfilePageState extends State<ProfilePage> {
 
                             return Column(
                               children: [
-                                UserProfileHeader(userModel: userModel),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.3,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(
+                                              ScreenUtil().setSp(30),
+                                            ),
+                                            child: Container(
+                                              color: Colors.white,
+                                              child: userModel.profile_pic != ""
+                                                  ? CachedNetworkImage(
+                                                      imageUrl:
+                                                          userModel.profile_pic,
+
+                                                      // Image.network(
+                                                      placeholder:
+                                                          (context, url) =>
+                                                              Image.asset(
+                                                        "assets/images/profile_holder.png",
+                                                      ),
+                                                      height: ScreenUtil()
+                                                          .setSp(60),
+                                                      width: ScreenUtil()
+                                                          .setSp(60),
+                                                      fit: BoxFit.contain,
+                                                      //   )
+                                                    )
+                                                  : CircleAvatar(
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      radius: ScreenUtil()
+                                                          .setSp(25),
+                                                      child: Text(
+                                                        userModel.user_name[0],
+                                                        style: TextStyle(
+                                                          fontSize: ScreenUtil()
+                                                              .setSp(
+                                                            20,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                            ),
+                                          ),
+                                          OurSizedBox(),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                            child: Text(
+                                              userModel.user_name,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize:
+                                                    ScreenUtil().setSp(15),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                            child: Text(
+                                              userModel.bio,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize:
+                                                    ScreenUtil().setSp(12.5),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: ScreenUtil().setSp(
+                                        15,
+                                      ),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.55,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              OurFollowersColumn(
+                                                number: userModel.post,
+                                                title: "Post",
+                                              ),
+                                              OurFollowersColumn(
+                                                number: userModel.following,
+                                                title: "Following",
+                                              ),
+                                              OurFollowersColumn(
+                                                number: userModel.follower,
+                                                title: "Followers",
+                                              ),
+                                            ],
+                                          ),
+                                          OurSizedBox(),
+                                          userModel.uid ==
+                                                  FirebaseAuth
+                                                      .instance.currentUser!.uid
+                                              ? OurOutlineButton(
+                                                  title: "Upload Profile",
+                                                  function: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) {
+                                                          return EditProfilePage(
+                                                              userModel:
+                                                                  userModel);
+                                                        },
+                                                        fullscreenDialog: true,
+                                                      ),
+                                                    );
+                                                  },
+                                                )
+                                              : userModel.followerList.contains(
+                                                      FirebaseAuth.instance
+                                                          .currentUser!.uid)
+                                                  ? OurOutlineButton(
+                                                      title: "Unfollow",
+                                                      function: () async {},
+                                                    )
+                                                  : OurOutlineButton(
+                                                      title: "Follow",
+                                                      function: () async {
+                                                        await FollowUnfollowDetailFirebase()
+                                                            .follow(userModel);
+                                                        setState(() {});
+                                                      },
+                                                    ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                                 Divider(),
                                 OurSizedBox(),
                                 StreamBuilder(
