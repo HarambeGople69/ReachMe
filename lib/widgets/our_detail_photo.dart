@@ -39,223 +39,239 @@ class _OurDetailImageTileState extends State<OurDetailImageTile> {
           horizontal: ScreenUtil().setSp(15),
           vertical: ScreenUtil().setSp(5),
         ),
-        child: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection("Posts")
-                .where("postId", isEqualTo: widget.postId)
-                .snapshots(),
-            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data!.docs.length > 0) {
-                  return ListView.builder(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      itemCount: snapshot.data!.docs.length,
-                      itemBuilder: (context, index) {
-                        PostModel postModel =
-                            PostModel.fromJson(snapshot.data!.docs[index]);
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
+        child: Column(
+          children: [
+            Spacer(),
+            StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection("Posts")
+                    .where("postId", isEqualTo: widget.postId)
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.docs.length > 0) {
+                      return ListView.builder(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            PostModel postModel =
+                                PostModel.fromJson(snapshot.data!.docs[index]);
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(
-                                    ScreenUtil().setSp(30),
-                                  ),
-                                  child: Container(
-                                    color: Colors.white,
-                                    child: postModel.profile_pic != ""
-                                        ? CachedNetworkImage(
-                                            imageUrl: postModel.profile_pic,
+                                Row(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                        ScreenUtil().setSp(30),
+                                      ),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: postModel.profile_pic != ""
+                                            ? CachedNetworkImage(
+                                                imageUrl: postModel.profile_pic,
 
-                                            // Image.network(
-                                            placeholder: (context, url) =>
-                                                Image.asset(
-                                              "assets/images/profile_holder.png",
-                                              fit: BoxFit.cover,
-                                            ),
-                                            height: ScreenUtil().setSp(40),
-                                            width: ScreenUtil().setSp(40),
-                                            fit: BoxFit.contain,
-                                            //   )
-                                          )
-                                        : CircleAvatar(
-                                            backgroundColor: Colors.white,
-                                            radius: ScreenUtil().setSp(20),
-                                            child: Text(
-                                              postModel.user_name[0],
-                                              style: TextStyle(
-                                                fontSize: ScreenUtil().setSp(
-                                                  20,
+                                                // Image.network(
+                                                placeholder: (context, url) =>
+                                                    Image.asset(
+                                                  "assets/images/profile_holder.png",
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                height: ScreenUtil().setSp(40),
+                                                width: ScreenUtil().setSp(40),
+                                                fit: BoxFit.contain,
+                                                //   )
+                                              )
+                                            : CircleAvatar(
+                                                backgroundColor: Colors.white,
+                                                radius: ScreenUtil().setSp(20),
+                                                child: Text(
+                                                  postModel.user_name[0],
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        ScreenUtil().setSp(
+                                                      20,
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: ScreenUtil().setSp(15),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      postModel.user_name,
-                                      style: TextStyle(
-                                        fontSize: ScreenUtil().setSp(15),
-                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                     SizedBox(
-                                      height: ScreenUtil().setSp(5),
+                                      width: ScreenUtil().setSp(15),
                                     ),
-                                    Text(
-                                      postModel.location,
-                                      style: TextStyle(
-                                        fontSize: ScreenUtil().setSp(12.5),
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          postModel.user_name,
+                                          style: TextStyle(
+                                            fontSize: ScreenUtil().setSp(15),
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: ScreenUtil().setSp(5),
+                                        ),
+                                        Text(
+                                          postModel.location,
+                                          style: TextStyle(
+                                            fontSize: ScreenUtil().setSp(12.5),
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
                                     ),
+                                    Spacer(),
+                                    postModel.OwnerId ==
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid
+                                        ? Icon(
+                                            Icons.more_vert,
+                                            size: ScreenUtil().setSp(
+                                              25,
+                                            ),
+                                          )
+                                        : Container(),
                                   ],
                                 ),
-                                Spacer(),
-                                postModel.OwnerId ==
-                                        FirebaseAuth.instance.currentUser!.uid
-                                    ? Icon(
-                                        Icons.more_vert,
-                                        size: ScreenUtil().setSp(
-                                          25,
-                                        ),
-                                      )
-                                    : Container(),
-                              ],
-                            ),
-                            OurSizedBox(),
+                                OurSizedBox(),
 
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                ScreenUtil().setSp(10),
-                              ),
-                              child: Container(
-                                color: Colors.white,
-                                child: CachedNetworkImage(
-                                  imageUrl: postModel.post_pic,
-                                  fit: BoxFit.contain,
-                                  width: MediaQuery.of(context).size.width,
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.35,
-                                  placeholder: (context, url) => Image.asset(
-                                    "assets/images/image_place_holder.png",
-                                    fit: BoxFit.cover,
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(
+                                    ScreenUtil().setSp(10),
+                                  ),
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: CachedNetworkImage(
+                                      imageUrl: postModel.post_pic,
+                                      fit: BoxFit.contain,
+                                      width: MediaQuery.of(context).size.width,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.35,
+                                      placeholder: (context, url) =>
+                                          Image.asset(
+                                        "assets/images/image_place_holder.png",
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            OurSizedBox(),
-                            Text(
-                              postModel.caption,
-                              style: TextStyle(
-                                fontSize: ScreenUtil().setSp(15),
-                              ),
-                            ),
-                            // OurSizedBox(),
-                            // OurSizedBox(),
-                            Container(
-                              width: double.infinity,
-                              child: Row(
-                                children: [
-                                  // IconButton(
-                                  // onPressed: () {
-                                  //   LikeDetailFirebase()
-                                  //       .like_unlike(widget.postModel, widget.userModel);
-                                  // },
+                                OurSizedBox(),
+                                Text(
+                                  postModel.caption,
+                                  style: TextStyle(
+                                    fontSize: ScreenUtil().setSp(15),
+                                  ),
+                                ),
+                                // OurSizedBox(),
+                                // OurSizedBox(),
+                                Container(
+                                  width: double.infinity,
+                                  child: Row(
+                                    children: [
+                                      // IconButton(
+                                      // onPressed: () {
+                                      //   LikeDetailFirebase()
+                                      //       .like_unlike(widget.postModel, widget.userModel);
+                                      // },
 
-                                  // icon: Icon(
+                                      // icon: Icon(
 
-                                  //   widget.postModel.likes.contains(widget.userModel.uid) == true
-                                  //       ? FontAwesomeIcons.heartbeat
-                                  //       : FontAwesomeIcons.heart,
-                                  //   color: Colors.red,
-                                  //   size: ScreenUtil().setSp(
-                                  //     25,
-                                  //   ),
-                                  // ),
-                                  // ),
-                                  InkWell(
-                                    onLongPress: () {
-                                      LikeBottomSheet(context, postModel);
-                                    },
-                                    onTap: () {
-                                      // LikeDetailFirebase().like_unlike_profile(widget.postModel);
-                                      LikeDetailFirebase()
-                                          .like_unlike(postModel);
-                                    },
-                                    child: Icon(
-                                      postModel.likes.contains(FirebaseAuth
-                                                  .instance.currentUser!.uid) ==
-                                              true
-                                          ? FontAwesomeIcons.heartbeat
-                                          : FontAwesomeIcons.heart,
-                                      color: Colors.red,
-                                      size: ScreenUtil().setSp(
-                                        25,
+                                      //   widget.postModel.likes.contains(widget.userModel.uid) == true
+                                      //       ? FontAwesomeIcons.heartbeat
+                                      //       : FontAwesomeIcons.heart,
+                                      //   color: Colors.red,
+                                      //   size: ScreenUtil().setSp(
+                                      //     25,
+                                      //   ),
+                                      // ),
+                                      // ),
+                                      InkWell(
+                                        onLongPress: () {
+                                          LikeBottomSheet(context, postModel);
+                                        },
+                                        onTap: () {
+                                          // LikeDetailFirebase().like_unlike_profile(widget.postModel);
+                                          LikeDetailFirebase()
+                                              .like_unlike(postModel);
+                                        },
+                                        child: Icon(
+                                          postModel.likes.contains(FirebaseAuth
+                                                      .instance
+                                                      .currentUser!
+                                                      .uid) ==
+                                                  true
+                                              ? FontAwesomeIcons.heartbeat
+                                              : FontAwesomeIcons.heart,
+                                          color: Colors.red,
+                                          size: ScreenUtil().setSp(
+                                            25,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: ScreenUtil().setSp(15),
-                                  ),
-                                  Text(
-                                    postModel.likeNumber.toString(),
-                                    style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(15),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: ScreenUtil().setSp(10),
-                                  ),
-                                  IconButton(
-                                    onPressed: () {
-                                      // CommentDetailFirebase().uploadDetail("comment", postModel);
-                                      CommentBottomSheet(context, postModel);
-                                    },
-                                    icon: Icon(
-                                      FontAwesomeIcons.comment,
-                                      color: Colors.blue,
-                                      size: ScreenUtil().setSp(
-                                        25,
+                                      SizedBox(
+                                        width: ScreenUtil().setSp(15),
                                       ),
-                                    ),
+                                      Text(
+                                        postModel.likeNumber.toString(),
+                                        style: TextStyle(
+                                          fontSize: ScreenUtil().setSp(15),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: ScreenUtil().setSp(10),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          // CommentDetailFirebase().uploadDetail("comment", postModel);
+                                          CommentBottomSheet(
+                                              context, postModel);
+                                        },
+                                        icon: Icon(
+                                          FontAwesomeIcons.comment,
+                                          color: Colors.blue,
+                                          size: ScreenUtil().setSp(
+                                            25,
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        postModel.commentNumber.toString(),
+                                        style: TextStyle(
+                                          fontSize: ScreenUtil().setSp(15),
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        timeago.format(
+                                          postModel.timestamp.toDate(),
+                                        ),
+                                        style: TextStyle(
+                                            color: Colors.grey[200],
+                                            fontSize: ScreenUtil().setSp(
+                                              12.5,
+                                            )),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    postModel.commentNumber.toString(),
-                                    style: TextStyle(
-                                      fontSize: ScreenUtil().setSp(15),
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  Text(
-                                    timeago.format(
-                                      postModel.timestamp.toDate(),
-                                    ),
-                                    style: TextStyle(
-                                        color: Colors.grey[200],
-                                        fontSize: ScreenUtil().setSp(
-                                          12.5,
-                                        )),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Divider(),
-                          ],
-                        );
-                      });
-                }
-              }
-              return Container();
-            }),
+                                ),
+                                Divider(),
+                              ],
+                            );
+                          });
+                    }
+                  }
+                  return Container();
+                }),
+            Spacer(
+              flex: 2,
+            ),
+          ],
+        ),
       ),
     ));
   }

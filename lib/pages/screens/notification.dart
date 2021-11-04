@@ -3,7 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:myapp/models/notification_model.dart';
+import 'package:myapp/pages/screens/view_profile.dart';
 import 'package:myapp/widgets/our_like_comment_notification_tile.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -54,12 +56,117 @@ class _NotificationPageState extends State<NotificationPage> {
                           NotificationModel notificationModel =
                               NotificationModel.fromJson(
                                   snapshot.data!.docs[index]);
-                          return OurLikeCommentTile(
-                              notificationModel: notificationModel);
+                          return notificationModel.type == "follow"
+                              ? Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            ScreenUtil().setSp(30),
+                                          ),
+                                          child: Container(
+                                            color: Colors.white,
+                                            child: notificationModel
+                                                        .senderProfile !=
+                                                    ""
+                                                ? CachedNetworkImage(
+                                                    imageUrl: notificationModel
+                                                        .senderProfile,
+
+                                                    // Image.network(
+                                                    placeholder:
+                                                        (context, url) =>
+                                                            Image.asset(
+                                                      "assets/images/profile_holder.png",
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                    height:
+                                                        ScreenUtil().setSp(40),
+                                                    width:
+                                                        ScreenUtil().setSp(40),
+                                                    fit: BoxFit.contain,
+                                                    //   )
+                                                  )
+                                                : CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    radius:
+                                                        ScreenUtil().setSp(20),
+                                                    child: Text(
+                                                      notificationModel
+                                                          .senderName[0],
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            ScreenUtil().setSp(
+                                                          25,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: ScreenUtil().setSp(15),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              notificationModel.senderName,
+                                              style: TextStyle(
+                                                fontSize:
+                                                    ScreenUtil().setSp(15),
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: ScreenUtil().setSp(5),
+                                            ),
+                                            Container(
+                                              width: ScreenUtil().setSp(230),
+                                              child: Text(
+                                                "followed you",
+                                                style: TextStyle(
+                                                  fontSize:
+                                                      ScreenUtil().setSp(12.5),
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: ScreenUtil().setSp(5),
+                                            ),
+                                            Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Text(
+                                                timeago.format(
+                                                  notificationModel.timestamp
+                                                      .toDate(),
+                                                ),
+                                                style: TextStyle(
+                                                    color: Colors.grey[200],
+                                                    fontSize:
+                                                        ScreenUtil().setSp(
+                                                      12.5,
+                                                    )),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Divider(),
+                                  ],
+                                )
+                              : OurLikeCommentTile(
+                                  notificationModel: notificationModel);
                         });
                   } else {
                     return Center(
-                      child: Text("No Notifications yet"),
+                      child: Lottie.asset('assets/animations/notification.json',
+                          fit: BoxFit.cover, height: 200.h, width: 200.h),
                     );
                   }
                 }

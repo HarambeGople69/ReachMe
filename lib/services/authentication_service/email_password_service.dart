@@ -11,10 +11,10 @@ class EmailPasswordAuth {
     try {
       AlertWidget().showLoading(context);
       await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((value) async {
-        await UserUploadInjection().registerInjection();
-        await UserDetailFirestore().initializeDetail();
+          .createUserWithEmailAndPassword(email: email, password: password);
+      // .then((value) async {
+      await UserUploadInjection().registerInjection();
+      await UserDetailFirestore().initializeDetail().then((value) async {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(

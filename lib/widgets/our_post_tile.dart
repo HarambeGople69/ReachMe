@@ -480,10 +480,7 @@ class _OurPostTileState extends State<OurPostTile> {
   }
 
   void LikeBottomSheet(context) {
-    List x = [];
-    widget.postModel.likes.forEach((e) {
-      x.add(e);
-    });
+    
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -528,100 +525,109 @@ class _OurPostTileState extends State<OurPostTile> {
                                         .snapshots(),
                                     builder: (BuildContext context,
                                         AsyncSnapshot<QuerySnapshot> snapshot) {
-                                      UserModel userModel = UserModel.fromJson(
-                                          snapshot.data!.docs[0]);
+                                      if (snapshot.hasData) {
+                                        UserModel userModel =
+                                            UserModel.fromJson(
+                                                snapshot.data!.docs[0]);
 
-                                      return Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                  ScreenUtil().setSp(30),
-                                                ),
-                                                child: Container(
-                                                  color: Colors.white,
-                                                  child: userModel
-                                                              .profile_pic !=
-                                                          ""
-                                                      ? CachedNetworkImage(
-                                                          imageUrl: userModel
-                                                              .profile_pic,
+                                        return Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    ScreenUtil().setSp(30),
+                                                  ),
+                                                  child: Container(
+                                                    color: Colors.white,
+                                                    child: userModel
+                                                                .profile_pic !=
+                                                            ""
+                                                        ? CachedNetworkImage(
+                                                            imageUrl: userModel
+                                                                .profile_pic,
 
-                                                          // Image.network(
-                                                          placeholder:
-                                                              (context, url) =>
-                                                                  Image.asset(
-                                                            "assets/images/profile_holder.png",
-                                                          ),
-                                                          height: ScreenUtil()
-                                                              .setSp(40),
-                                                          width: ScreenUtil()
-                                                              .setSp(40),
-                                                          fit: BoxFit.fitHeight,
-                                                          //   )
-                                                        )
-                                                      : CircleAvatar(
-                                                          backgroundColor:
-                                                              Colors.white,
-                                                          radius: ScreenUtil()
-                                                              .setSp(20),
-                                                          child: Text(
-                                                            userModel
-                                                                .user_name[0],
-                                                            style: TextStyle(
-                                                              fontSize:
-                                                                  ScreenUtil()
-                                                                      .setSp(
-                                                                20,
+                                                            // Image.network(
+                                                            placeholder:
+                                                                (context,
+                                                                        url) =>
+                                                                    Image.asset(
+                                                              "assets/images/profile_holder.png",
+                                                            ),
+                                                            height: ScreenUtil()
+                                                                .setSp(40),
+                                                            width: ScreenUtil()
+                                                                .setSp(40),
+                                                            fit: BoxFit
+                                                                .fitHeight,
+                                                            //   )
+                                                          )
+                                                        : CircleAvatar(
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            radius: ScreenUtil()
+                                                                .setSp(20),
+                                                            child: Text(
+                                                              userModel
+                                                                  .user_name[0],
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    ScreenUtil()
+                                                                        .setSp(
+                                                                  20,
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: ScreenUtil().setSp(20),
+                                                ),
+                                                Container(
+                                                  width:
+                                                      ScreenUtil().setSp(250),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        userModel.user_name,
+                                                        style: TextStyle(
+                                                          fontSize: ScreenUtil()
+                                                              .setSp(15),
+                                                          fontWeight:
+                                                              FontWeight.w600,
                                                         ),
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                width: ScreenUtil().setSp(20),
-                                              ),
-                                              Container(
-                                                width: ScreenUtil().setSp(250),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      userModel.user_name,
-                                                      style: TextStyle(
-                                                        fontSize: ScreenUtil()
-                                                            .setSp(15),
-                                                        fontWeight:
-                                                            FontWeight.w600,
                                                       ),
-                                                    ),
-                                                    OurSizedBox(),
-                                                    Text(
-                                                      userModel.bio,
-                                                      style: TextStyle(
-                                                        fontSize: ScreenUtil()
-                                                            .setSp(12.5),
-                                                        fontWeight:
-                                                            FontWeight.w600,
+                                                      OurSizedBox(),
+                                                      Text(
+                                                        userModel.bio,
+                                                        style: TextStyle(
+                                                          fontSize: ScreenUtil()
+                                                              .setSp(12.5),
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                        ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          OurSizedBox(),
-                                          Divider(),
-                                          OurSizedBox(),
-                                        ],
-                                      );
+                                              ],
+                                            ),
+                                            OurSizedBox(),
+                                            Divider(),
+                                            OurSizedBox(),
+                                          ],
+                                        );
+                                      }
+                                      return Container();
                                     });
                               });
                         }
+                        return Container();
                       }
                       return Container();
                     },

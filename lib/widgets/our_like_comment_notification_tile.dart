@@ -21,7 +21,11 @@ class _OurLikeCommentTileState extends State<OurLikeCommentTile> {
     return widget.notificationModel.type == "like"
         ? InkWell(
             onTap: () {
-              print("Like");
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return OurDetailImageTile(
+                  postId: widget.notificationModel.postId,
+                );
+              }));
             },
             child: Column(
               children: [
@@ -128,8 +132,10 @@ class _OurLikeCommentTileState extends State<OurLikeCommentTile> {
           )
         : InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context){
-                return OurDetailImageTile(postId: widget.notificationModel.postId,);
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return OurDetailImageTile(
+                  postId: widget.notificationModel.postId,
+                );
               }));
             },
             child: Column(
