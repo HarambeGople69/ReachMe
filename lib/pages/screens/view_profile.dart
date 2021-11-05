@@ -233,7 +233,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                                                 MaterialPageRoute(
                                                                     builder:
                                                                         (context) {
-                                                              return Message();
+                                                              return Message(userModel: userModel,);
                                                             }));
                                                           },
                                                         ),

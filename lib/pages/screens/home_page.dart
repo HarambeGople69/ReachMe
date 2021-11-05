@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:myapp/models/post_model.dart';
 import 'package:myapp/models/user_model.dart';
+import 'package:myapp/pages/screens/messager_home.dart';
 import 'package:myapp/widgets/our_elevated_button.dart';
 import 'package:myapp/widgets/our_post_tile.dart';
 import 'package:myapp/widgets/our_sizedbox.dart';
@@ -39,7 +40,11 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return MessangerHome();
+              }));
+            },
             icon: FaIcon(
               FontAwesomeIcons.facebookMessenger,
               size: ScreenUtil().setSp(
