@@ -7,7 +7,7 @@ import 'package:myapp/pages/set_user_info/new_user_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Wrapper extends StatefulWidget {
-  final int x;
+  final dynamic x;
 
   const Wrapper({
     Key? key,

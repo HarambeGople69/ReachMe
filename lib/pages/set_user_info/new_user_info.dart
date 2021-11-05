@@ -9,6 +9,7 @@ import 'package:myapp/services/authentication_service/email_password_service.dar
 import 'package:myapp/services/authentication_service/google_login_service.dart';
 import 'package:myapp/services/check%20peserved%20name/check_reserved_name.dart';
 import 'package:myapp/services/firebase%20storage/user_info_storage.dart';
+import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_elevated_button.dart';
 import 'package:myapp/widgets/our_sizedbox.dart';
 import 'package:myapp/widgets/our_text_field.dart';
@@ -75,14 +76,10 @@ class _UserInfoPageState extends State<UserInfoPage> {
               Center(
                 child: Text(
                   "Set you profile",
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(25),
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: boldText,
                 ),
               ),
               OurSizedBox(),
-              
               Center(
                 child: file != null
                     ? ClipRRect(
@@ -121,17 +118,14 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   onPressed: () {
                     pickImage();
                   },
-                  child: Text("Upload profile picture"),
-                ),
-              ),
-              Text(
-                "Ente your name:",
-                style: TextStyle(
-                  fontSize: ScreenUtil().setSp(
-                    17.5,
+                  child: Text(
+                    "Upload profile picture",
+                    style: MediumText,
                   ),
                 ),
               ),
+              OurSizedBox(),
+              Text("Ente your name:", style: MediumText),
               OurSizedBox(),
               CustomTextField(
                 icon: Icons.person,
@@ -152,11 +146,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
               OurSizedBox(),
               Text(
                 "Ente your bio:",
-                style: TextStyle(
-                  fontSize: ScreenUtil().setSp(
-                    17.5,
-                  ),
-                ),
+                style: MediumText,
               ),
               OurSizedBox(),
               CustomTextField(

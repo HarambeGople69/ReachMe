@@ -11,6 +11,7 @@ import 'package:myapp/models/user_model.dart';
 import 'package:myapp/services/firestore/comment_info_detail.dart';
 import 'package:myapp/services/firestore/likeunlike_info_detail.dart';
 import 'package:myapp/services/firestore/notification_indo_detail.dart';
+import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_text_field.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'our_sizedbox.dart';
@@ -51,19 +52,19 @@ class _OurPostTileState extends State<OurPostTile> {
                           "assets/images/profile_holder.png",
                           fit: BoxFit.cover,
                         ),
-                        height: ScreenUtil().setSp(40),
-                        width: ScreenUtil().setSp(40),
+                        height: ScreenUtil().setSp(50),
+                        width: ScreenUtil().setSp(50),
                         fit: BoxFit.contain,
                         //   )
                       )
                     : CircleAvatar(
                         backgroundColor: Colors.white,
-                        radius: ScreenUtil().setSp(20),
+                        radius: ScreenUtil().setSp(25),
                         child: Text(
                           widget.postModel.user_name[0],
                           style: TextStyle(
                             fontSize: ScreenUtil().setSp(
-                              20,
+                              25,
                             ),
                           ),
                         ),
@@ -76,23 +77,14 @@ class _OurPostTileState extends State<OurPostTile> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  widget.postModel.user_name,
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(15),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                Text(widget.postModel.user_name,
+                    style: MediumText.copyWith(
+                      fontWeight: FontWeight.w700,
+                    )),
                 SizedBox(
                   height: ScreenUtil().setSp(5),
                 ),
-                Text(
-                  widget.postModel.location,
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(12.5),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                Text(widget.postModel.location, style: SmallText),
               ],
             ),
             Spacer(),
@@ -107,7 +99,6 @@ class _OurPostTileState extends State<OurPostTile> {
           ],
         ),
         OurSizedBox(),
-
         ClipRRect(
           borderRadius: BorderRadius.circular(
             ScreenUtil().setSp(10),
@@ -129,33 +120,12 @@ class _OurPostTileState extends State<OurPostTile> {
         OurSizedBox(),
         Text(
           widget.postModel.caption,
-          style: TextStyle(
-            fontSize: ScreenUtil().setSp(15),
-          ),
+          style: SmallText,
         ),
-        // OurSizedBox(),
-        // OurSizedBox(),
         Container(
           width: double.infinity,
           child: Row(
             children: [
-              // IconButton(
-              // onPressed: () {
-              //   LikeDetailFirebase()
-              //       .like_unlike(widget.postModel, widget.userModel);
-              // },
-
-              // icon: Icon(
-
-              //   widget.postModel.likes.contains(widget.userModel.uid) == true
-              //       ? FontAwesomeIcons.heartbeat
-              //       : FontAwesomeIcons.heart,
-              //   color: Colors.red,
-              //   size: ScreenUtil().setSp(
-              //     25,
-              //   ),
-              // ),
-              // ),
               InkWell(
                 onLongPress: () {
                   LikeBottomSheet(context);
@@ -181,9 +151,7 @@ class _OurPostTileState extends State<OurPostTile> {
               ),
               Text(
                 widget.postModel.likeNumber.toString(),
-                style: TextStyle(
-                  fontSize: ScreenUtil().setSp(15),
-                ),
+                style: SmallText,
               ),
               SizedBox(
                 width: ScreenUtil().setSp(10),
@@ -203,21 +171,14 @@ class _OurPostTileState extends State<OurPostTile> {
               ),
               Text(
                 widget.postModel.commentNumber.toString(),
-                style: TextStyle(
-                  fontSize: ScreenUtil().setSp(15),
-                ),
+                style: SmallText,
               ),
               Spacer(),
               Text(
-                timeago.format(
-                  widget.postModel.timestamp.toDate(),
-                ),
-                style: TextStyle(
-                    color: Colors.grey[200],
-                    fontSize: ScreenUtil().setSp(
-                      12.5,
-                    )),
-              ),
+                  timeago.format(
+                    widget.postModel.timestamp.toDate(),
+                  ),
+                  style: TimeAgoText),
             ],
           ),
         ),
@@ -322,11 +283,11 @@ class _OurPostTileState extends State<OurPostTile> {
                                                               height:
                                                                   ScreenUtil()
                                                                       .setSp(
-                                                                          40),
+                                                                          50),
                                                               width:
                                                                   ScreenUtil()
                                                                       .setSp(
-                                                                          40),
+                                                                          50),
                                                               fit: BoxFit
                                                                   .fitHeight,
                                                               //   )
@@ -346,7 +307,7 @@ class _OurPostTileState extends State<OurPostTile> {
                                                                   fontSize:
                                                                       ScreenUtil()
                                                                           .setSp(
-                                                                    20,
+                                                                    25,
                                                                   ),
                                                                 ),
                                                               ),
@@ -363,14 +324,13 @@ class _OurPostTileState extends State<OurPostTile> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        commentModel.user_name,
-                                                        style: TextStyle(
-                                                          fontSize: ScreenUtil()
-                                                              .setSp(15),
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      ),
+                                                          commentModel
+                                                              .user_name,
+                                                          style: MediumText
+                                                              .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700)),
                                                       SizedBox(
                                                         height: ScreenUtil()
                                                             .setSp(5),
@@ -381,14 +341,7 @@ class _OurPostTileState extends State<OurPostTile> {
                                                             .setSp(150),
                                                         child: Text(
                                                           commentModel.comment,
-                                                          style: TextStyle(
-                                                            fontSize:
-                                                                ScreenUtil()
-                                                                    .setSp(
-                                                                        12.5),
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
+                                                          style: SmallText,
                                                         ),
                                                       ),
                                                     ],
@@ -402,13 +355,7 @@ class _OurPostTileState extends State<OurPostTile> {
                                                         commentModel.timestamp
                                                             .toDate(),
                                                       ),
-                                                      style: TextStyle(
-                                                          color:
-                                                              Colors.grey[200],
-                                                          fontSize: ScreenUtil()
-                                                              .setSp(
-                                                            12.5,
-                                                          )),
+                                                      style: TimeAgoText,
                                                     ),
                                                   ),
                                                 ],
@@ -425,6 +372,7 @@ class _OurPostTileState extends State<OurPostTile> {
                             return Center(
                               child: Text(
                                 "No comments",
+                                style: SmallText,
                               ),
                             );
                           }),
@@ -480,7 +428,6 @@ class _OurPostTileState extends State<OurPostTile> {
   }
 
   void LikeBottomSheet(context) {
-    
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -556,9 +503,9 @@ class _OurPostTileState extends State<OurPostTile> {
                                                               "assets/images/profile_holder.png",
                                                             ),
                                                             height: ScreenUtil()
-                                                                .setSp(40),
+                                                                .setSp(50),
                                                             width: ScreenUtil()
-                                                                .setSp(40),
+                                                                .setSp(50),
                                                             fit: BoxFit
                                                                 .fitHeight,
                                                             //   )
@@ -567,7 +514,7 @@ class _OurPostTileState extends State<OurPostTile> {
                                                             backgroundColor:
                                                                 Colors.white,
                                                             radius: ScreenUtil()
-                                                                .setSp(20),
+                                                                .setSp(25),
                                                             child: Text(
                                                               userModel
                                                                   .user_name[0],
@@ -575,7 +522,7 @@ class _OurPostTileState extends State<OurPostTile> {
                                                                 fontSize:
                                                                     ScreenUtil()
                                                                         .setSp(
-                                                                  20,
+                                                                  25,
                                                                 ),
                                                               ),
                                                             ),
@@ -593,24 +540,16 @@ class _OurPostTileState extends State<OurPostTile> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text(
-                                                        userModel.user_name,
-                                                        style: TextStyle(
-                                                          fontSize: ScreenUtil()
-                                                              .setSp(15),
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      ),
+                                                      Text(userModel.user_name,
+                                                          style: MediumText
+                                                              .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                          )),
                                                       OurSizedBox(),
                                                       Text(
                                                         userModel.bio,
-                                                        style: TextStyle(
-                                                          fontSize: ScreenUtil()
-                                                              .setSp(12.5),
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
+                                                        style: SmallText,
                                                       ),
                                                     ],
                                                   ),

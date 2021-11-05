@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:myapp/models/user_model.dart';
+import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_profile_tile.dart';
 import 'package:myapp/widgets/our_text_field.dart';
 
@@ -47,9 +48,12 @@ class _SearchPageState extends State<SearchPage> {
                       type: TextInputType.name,
                       number: 1),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil().setSp(10),
+                SizedBox(
+                  width: ScreenUtil().setSp(10),
+                ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                    ScreenUtil().setSp(15),
                   ),
                   child: ElevatedButton(
                     onPressed: () {
@@ -93,7 +97,10 @@ class _SearchPageState extends State<SearchPage> {
                                   });
                             } else {
                               return Center(
-                                child: Text("Cannot find"),
+                                child: Text(
+                                  "Cannot find",
+                                  style: SmallText,
+                                ),
                               );
                             }
                           }
@@ -106,12 +113,14 @@ class _SearchPageState extends State<SearchPage> {
                           );
                         }),
                   )
-                : Center(
-                    child: Lottie.asset(
-                        'assets/animations/search_animation.json',
-                        fit: BoxFit.cover,
-                        height: 150.h,
-                        width: 150.h),
+                : Expanded(
+                    child: Center(
+                      child: Lottie.asset(
+                          'assets/animations/search_animation.json',
+                          fit: BoxFit.cover,
+                          height: 150.h,
+                          width: 150.h),
+                    ),
                   ),
           ],
         ),

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/models/notification_model.dart';
+import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_detail_photo.dart';
 import 'package:myapp/widgets/our_post_tile.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -47,14 +48,14 @@ class _OurLikeCommentTileState extends State<OurLikeCommentTile> {
                                   "assets/images/profile_holder.png",
                                   fit: BoxFit.cover,
                                 ),
-                                height: ScreenUtil().setSp(40),
-                                width: ScreenUtil().setSp(40),
+                                height: ScreenUtil().setSp(50),
+                                width: ScreenUtil().setSp(50),
                                 fit: BoxFit.contain,
                                 //   )
                               )
                             : CircleAvatar(
                                 backgroundColor: Colors.white,
-                                radius: ScreenUtil().setSp(20),
+                                radius: ScreenUtil().setSp(25),
                                 child: Text(
                                   widget.notificationModel.senderName[0],
                                   style: TextStyle(
@@ -69,60 +70,55 @@ class _OurLikeCommentTileState extends State<OurLikeCommentTile> {
                     SizedBox(
                       width: ScreenUtil().setSp(15),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.notificationModel.senderName,
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setSp(15),
-                            fontWeight: FontWeight.w600,
+                    Container(
+                      // color: Colors.red,
+                      width: MediaQuery.of(context).size.width * 0.55,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(widget.notificationModel.senderName,
+                              style: MediumText.copyWith(
+                                fontWeight: FontWeight.w700,
+                              )),
+                          SizedBox(
+                            height: ScreenUtil().setSp(5),
                           ),
-                        ),
-                        SizedBox(
-                          height: ScreenUtil().setSp(5),
-                        ),
-                        Container(
-                          width: ScreenUtil().setSp(230),
-                          child: Text(
-                            "Liked your photo",
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(12.5),
-                              fontWeight: FontWeight.w600,
+                          Container(
+                            child: Text(
+                              "Liked your photo",
+                              style: SmallText,
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: ScreenUtil().setSp(5),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
+                          SizedBox(
+                            height: ScreenUtil().setSp(5),
+                          ),
+                          Text(
                             timeago.format(
                               widget.notificationModel.timestamp.toDate(),
                             ),
-                            style: TextStyle(
-                                color: Colors.grey[200],
-                                fontSize: ScreenUtil().setSp(
-                                  12.5,
-                                )),
+                            style: TimeAgoText,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Spacer(),
-                    CachedNetworkImage(
-                      imageUrl: widget.notificationModel.post_pic,
-
-                      // Image.network(
-                      placeholder: (context, url) => Image.asset(
-                        "assets/images/profile_holder.png",
-                        fit: BoxFit.cover,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                        ScreenUtil().setSp(10),
                       ),
-                      height: ScreenUtil().setSp(60),
-                      width: ScreenUtil().setSp(60),
-                      fit: BoxFit.contain,
-                      //   )
+                      child: CachedNetworkImage(
+                        imageUrl: widget.notificationModel.post_pic,
+
+                        // Image.network(
+                        placeholder: (context, url) => Image.asset(
+                          "assets/images/profile_holder.png",
+                          fit: BoxFit.cover,
+                        ),
+                        height: ScreenUtil().setSp(60),
+                        width: ScreenUtil().setSp(60),
+                        fit: BoxFit.contain,
+                        //   )
+                      ),
                     )
                   ],
                 ),
@@ -158,14 +154,14 @@ class _OurLikeCommentTileState extends State<OurLikeCommentTile> {
                                   "assets/images/profile_holder.png",
                                   fit: BoxFit.cover,
                                 ),
-                                height: ScreenUtil().setSp(40),
-                                width: ScreenUtil().setSp(40),
+                                height: ScreenUtil().setSp(50),
+                                width: ScreenUtil().setSp(50),
                                 fit: BoxFit.contain,
                                 //   )
                               )
                             : CircleAvatar(
                                 backgroundColor: Colors.white,
-                                radius: ScreenUtil().setSp(20),
+                                radius: ScreenUtil().setSp(25),
                                 child: Text(
                                   widget.notificationModel.senderName[0],
                                   style: TextStyle(
@@ -180,60 +176,54 @@ class _OurLikeCommentTileState extends State<OurLikeCommentTile> {
                     SizedBox(
                       width: ScreenUtil().setSp(15),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.notificationModel.senderName,
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setSp(15),
-                            fontWeight: FontWeight.w600,
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.55,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(widget.notificationModel.senderName,
+                              style: MediumText.copyWith(
+                                fontWeight: FontWeight.w700,
+                              )),
+                          SizedBox(
+                            height: ScreenUtil().setSp(5),
                           ),
-                        ),
-                        SizedBox(
-                          height: ScreenUtil().setSp(5),
-                        ),
-                        Container(
-                          width: ScreenUtil().setSp(230),
-                          child: Text(
-                            "Commented: " + widget.notificationModel.comment,
-                            style: TextStyle(
-                              fontSize: ScreenUtil().setSp(12.5),
-                              fontWeight: FontWeight.w600,
-                            ),
+                          Container(
+                            child: Text(
+                                "Commented: " +
+                                    widget.notificationModel.comment,
+                                style: SmallText),
                           ),
-                        ),
-                        SizedBox(
-                          height: ScreenUtil().setSp(5),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
+                          SizedBox(
+                            height: ScreenUtil().setSp(5),
+                          ),
+                          Text(
                             timeago.format(
                               widget.notificationModel.timestamp.toDate(),
                             ),
-                            style: TextStyle(
-                                color: Colors.grey[200],
-                                fontSize: ScreenUtil().setSp(
-                                  12.5,
-                                )),
+                            style: TimeAgoText,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Spacer(),
-                    CachedNetworkImage(
-                      imageUrl: widget.notificationModel.post_pic,
-
-                      // Image.network(
-                      placeholder: (context, url) => Image.asset(
-                        "assets/images/profile_holder.png",
-                        fit: BoxFit.cover,
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(
+                        ScreenUtil().setSp(10),
                       ),
-                      height: ScreenUtil().setSp(60),
-                      width: ScreenUtil().setSp(60),
-                      fit: BoxFit.contain,
-                      //   )
+                      child: CachedNetworkImage(
+                        imageUrl: widget.notificationModel.post_pic,
+
+                        // Image.network(
+                        placeholder: (context, url) => Image.asset(
+                          "assets/images/profile_holder.png",
+                          fit: BoxFit.cover,
+                        ),
+                        height: ScreenUtil().setSp(60),
+                        width: ScreenUtil().setSp(60),
+                        fit: BoxFit.contain,
+                        //   )
+                      ),
                     )
                   ],
                 ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/pages/screens/view_profile.dart';
+import 'package:myapp/utils/styles.dart';
 
 class OurProfileTile extends StatelessWidget {
   final UserModel userModel;
@@ -14,9 +15,8 @@ class OurProfileTile extends StatelessWidget {
       onTap: () {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return ViewProfile(
-            // uid: userModel.uid,
-            userModel: userModel
-          );
+              // uid: userModel.uid,
+              userModel: userModel);
         }));
       },
       child: Row(
@@ -47,7 +47,7 @@ class OurProfileTile extends StatelessWidget {
                         userModel.user_name[0],
                         style: TextStyle(
                           fontSize: ScreenUtil().setSp(
-                            30,
+                            25,
                           ),
                         ),
                       ),
@@ -62,12 +62,10 @@ class OurProfileTile extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                userModel.user_name,
-                style: TextStyle(
-                  fontSize: ScreenUtil().setSp(17.5),
-                ),
-              ),
+              Text(userModel.user_name,
+                  style: MediumText.copyWith(
+                    fontWeight: FontWeight.w700,
+                  )),
               SizedBox(
                 height: ScreenUtil().setSp(5),
               ),
@@ -77,8 +75,7 @@ class OurProfileTile extends StatelessWidget {
                   padding: new EdgeInsets.only(right: 13.0),
                   child: Text(
                     userModel.bio,
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(13.5),
+                    style: SmallText.copyWith(
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

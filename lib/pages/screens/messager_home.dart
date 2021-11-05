@@ -7,6 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:myapp/models/messanger_home_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/pages/screens/message.dart';
+import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_sizedbox.dart';
 
 class MessangerHome extends StatefulWidget {
@@ -23,12 +24,7 @@ class _MessangerHomeState extends State<MessangerHome> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
-          "Inbox",
-          style: TextStyle(
-            fontSize: ScreenUtil().setSp(30),
-          ),
-        ),
+        title: Text("Inbox", style: AppBarText),
         centerTitle: true,
       ),
       body: Container(
@@ -124,7 +120,7 @@ class _MessangerHomeState extends State<MessangerHome> {
                                                               radius:
                                                                   ScreenUtil()
                                                                       .setSp(
-                                                                          23),
+                                                                          25),
                                                               child: Text(
                                                                 userModel
                                                                     .user_name[0],
@@ -133,7 +129,7 @@ class _MessangerHomeState extends State<MessangerHome> {
                                                                   fontSize:
                                                                       ScreenUtil()
                                                                           .setSp(
-                                                                    30,
+                                                                    25,
                                                                   ),
                                                                 ),
                                                               ),
@@ -150,13 +146,12 @@ class _MessangerHomeState extends State<MessangerHome> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Text(
-                                                        userModel.user_name,
-                                                        style: TextStyle(
-                                                          fontSize: ScreenUtil()
-                                                              .setSp(17.5),
-                                                        ),
-                                                      ),
+                                                      Text(userModel.user_name,
+                                                          style: MediumText
+                                                              .copyWith(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700)),
                                                       SizedBox(
                                                         height: ScreenUtil()
                                                             .setSp(5),
@@ -171,15 +166,10 @@ class _MessangerHomeState extends State<MessangerHome> {
                                                                   right: 13.0),
                                                           child: Text(
                                                             userModel.bio,
-                                                            style: TextStyle(
-                                                              fontSize:
-                                                                  ScreenUtil()
-                                                                      .setSp(
-                                                                          13.5),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                            ),
+                                                            style: SmallText,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                           ),
                                                         ),
                                                       ),
@@ -187,6 +177,7 @@ class _MessangerHomeState extends State<MessangerHome> {
                                                   )
                                                 ],
                                               ),
+                                              Divider(),
                                               OurSizedBox(),
                                             ],
                                           ),
@@ -194,7 +185,7 @@ class _MessangerHomeState extends State<MessangerHome> {
                                       });
                                 }
                               }
-                              return Text("data");
+                              return Container();
                             });
                       });
                 }

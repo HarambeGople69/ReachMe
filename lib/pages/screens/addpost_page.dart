@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:myapp/services/firebase%20storage/post_info_storage.dart';
+import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_elevated_button.dart';
 import 'package:myapp/widgets/our_sizedbox.dart';
 import 'package:myapp/widgets/our_text_field.dart';
@@ -103,6 +104,7 @@ class _AddPostState extends State<AddPost> {
           backgroundColor: Colors.transparent,
           title: Text(
             "Add Post",
+            style: AppBarText,
           ),
           centerTitle: true,
         ),
@@ -167,11 +169,7 @@ class _AddPostState extends State<AddPost> {
                         },
                         child: Text(
                           "Pick image",
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setSp(
-                              17.5,
-                            ),
-                          ),
+                          style: MediumText,
                         ),
                       ),
                       OurSizedBox(),

@@ -5,24 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/models/comment_model.dart';
+import 'package:myapp/models/like_model.dart';
 import 'package:myapp/models/post_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/services/firestore/comment_info_detail.dart';
 import 'package:myapp/services/firestore/likeunlike_info_detail.dart';
 import 'package:myapp/services/firestore/notification_indo_detail.dart';
+import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_text_field.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'our_sizedbox.dart';
 
 class OurDetailImageTile extends StatefulWidget {
-  // final PostModel postModel;
-  // final UserModel userModel;
   final String postId;
   const OurDetailImageTile({
     Key? key,
     required this.postId,
-    // required this.postModel,
-    // required this.userModel,
   }) : super(key: key);
 
   @override
@@ -33,247 +31,248 @@ class _OurDetailImageTileState extends State<OurDetailImageTile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-      child: Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: ScreenUtil().setSp(15),
-          vertical: ScreenUtil().setSp(5),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
-        child: Column(
-          children: [
-            Spacer(),
-            StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection("Posts")
-                    .where("postId", isEqualTo: widget.postId)
-                    .snapshots(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.docs.length > 0) {
-                      return ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, index) {
-                            PostModel postModel =
-                                PostModel.fromJson(snapshot.data!.docs[index]);
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
+        body: SafeArea(
+          child: Container(
+            margin: EdgeInsets.symmetric(
+              horizontal: ScreenUtil().setSp(15),
+              vertical: ScreenUtil().setSp(5),
+            ),
+            child: Column(
+              children: [
+                Spacer(),
+                StreamBuilder<QuerySnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection("Posts")
+                        .where("postId", isEqualTo: widget.postId)
+                        .snapshots(),
+                    builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data!.docs.length > 0) {
+                          return ListView.builder(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                PostModel postModel = PostModel.fromJson(
+                                    snapshot.data!.docs[index]);
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(
-                                        ScreenUtil().setSp(30),
-                                      ),
-                                      child: Container(
-                                        color: Colors.white,
-                                        child: postModel.profile_pic != ""
-                                            ? CachedNetworkImage(
-                                                imageUrl: postModel.profile_pic,
+                                    Row(
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            ScreenUtil().setSp(30),
+                                          ),
+                                          child: Container(
+                                            color: Colors.white,
+                                            child: postModel.profile_pic != ""
+                                                ? CachedNetworkImage(
+                                                    imageUrl:
+                                                        postModel.profile_pic,
 
-                                                // Image.network(
-                                                placeholder: (context, url) =>
-                                                    Image.asset(
-                                                  "assets/images/profile_holder.png",
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                height: ScreenUtil().setSp(40),
-                                                width: ScreenUtil().setSp(40),
-                                                fit: BoxFit.contain,
-                                                //   )
-                                              )
-                                            : CircleAvatar(
-                                                backgroundColor: Colors.white,
-                                                radius: ScreenUtil().setSp(20),
-                                                child: Text(
-                                                  postModel.user_name[0],
-                                                  style: TextStyle(
-                                                    fontSize:
-                                                        ScreenUtil().setSp(
-                                                      20,
+                                                    // Image.network(
+                                                    placeholder:
+                                                        (context, url) =>
+                                                            Image.asset(
+                                                      "assets/images/profile_holder.png",
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                    height:
+                                                        ScreenUtil().setSp(50),
+                                                    width:
+                                                        ScreenUtil().setSp(50),
+                                                    fit: BoxFit.contain,
+                                                    //   )
+                                                  )
+                                                : CircleAvatar(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    radius:
+                                                        ScreenUtil().setSp(25),
+                                                    child: Text(
+                                                      postModel.user_name[0],
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            ScreenUtil().setSp(
+                                                          25,
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                              ),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: ScreenUtil().setSp(15),
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          postModel.user_name,
-                                          style: TextStyle(
-                                            fontSize: ScreenUtil().setSp(15),
-                                            fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                         SizedBox(
-                                          height: ScreenUtil().setSp(5),
+                                          width: ScreenUtil().setSp(15),
                                         ),
-                                        Text(
-                                          postModel.location,
-                                          style: TextStyle(
-                                            fontSize: ScreenUtil().setSp(12.5),
-                                            fontWeight: FontWeight.w600,
-                                          ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(postModel.user_name,
+                                                style: MediumText.copyWith(
+                                                    fontWeight:
+                                                        FontWeight.w700)),
+                                            SizedBox(
+                                              height: ScreenUtil().setSp(5),
+                                            ),
+                                            Text(postModel.location,
+                                                style: SmallText),
+                                          ],
                                         ),
+                                        Spacer(),
+                                        postModel.OwnerId ==
+                                                FirebaseAuth
+                                                    .instance.currentUser!.uid
+                                            ? Icon(
+                                                Icons.more_vert,
+                                                size: ScreenUtil().setSp(
+                                                  25,
+                                                ),
+                                              )
+                                            : Container(),
                                       ],
                                     ),
-                                    Spacer(),
-                                    postModel.OwnerId ==
-                                            FirebaseAuth
-                                                .instance.currentUser!.uid
-                                        ? Icon(
-                                            Icons.more_vert,
-                                            size: ScreenUtil().setSp(
-                                              25,
-                                            ),
-                                          )
-                                        : Container(),
-                                  ],
-                                ),
-                                OurSizedBox(),
+                                    OurSizedBox(),
 
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(
-                                    ScreenUtil().setSp(10),
-                                  ),
-                                  child: Container(
-                                    color: Colors.white,
-                                    child: CachedNetworkImage(
-                                      imageUrl: postModel.post_pic,
-                                      fit: BoxFit.contain,
-                                      width: MediaQuery.of(context).size.width,
-                                      height:
-                                          MediaQuery.of(context).size.height *
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(
+                                        ScreenUtil().setSp(10),
+                                      ),
+                                      child: Container(
+                                        color: Colors.white,
+                                        child: CachedNetworkImage(
+                                          imageUrl: postModel.post_pic,
+                                          fit: BoxFit.contain,
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
                                               0.35,
-                                      placeholder: (context, url) =>
-                                          Image.asset(
-                                        "assets/images/image_place_holder.png",
-                                        fit: BoxFit.cover,
+                                          placeholder: (context, url) =>
+                                              Image.asset(
+                                            "assets/images/image_place_holder.png",
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                OurSizedBox(),
-                                Text(
-                                  postModel.caption,
-                                  style: TextStyle(
-                                    fontSize: ScreenUtil().setSp(15),
-                                  ),
-                                ),
-                                // OurSizedBox(),
-                                // OurSizedBox(),
-                                Container(
-                                  width: double.infinity,
-                                  child: Row(
-                                    children: [
-                                      // IconButton(
-                                      // onPressed: () {
-                                      //   LikeDetailFirebase()
-                                      //       .like_unlike(widget.postModel, widget.userModel);
-                                      // },
+                                    OurSizedBox(),
+                                    Text(
+                                      postModel.caption,
+                                      style: TextStyle(
+                                        fontSize: ScreenUtil().setSp(15),
+                                      ),
+                                    ),
+                                    // OurSizedBox(),
+                                    // OurSizedBox(),
+                                    Container(
+                                      width: double.infinity,
+                                      child: Row(
+                                        children: [
+                                          // IconButton(
+                                          // onPressed: () {
+                                          //   LikeDetailFirebase()
+                                          //       .like_unlike(widget.postModel, widget.userModel);
+                                          // },
 
-                                      // icon: Icon(
+                                          // icon: Icon(
 
-                                      //   widget.postModel.likes.contains(widget.userModel.uid) == true
-                                      //       ? FontAwesomeIcons.heartbeat
-                                      //       : FontAwesomeIcons.heart,
-                                      //   color: Colors.red,
-                                      //   size: ScreenUtil().setSp(
-                                      //     25,
-                                      //   ),
-                                      // ),
-                                      // ),
-                                      InkWell(
-                                        onLongPress: () {
-                                          LikeBottomSheet(context, postModel);
-                                        },
-                                        onTap: () {
-                                          // LikeDetailFirebase().like_unlike_profile(widget.postModel);
-                                          LikeDetailFirebase()
-                                              .like_unlike(postModel);
-                                        },
-                                        child: Icon(
-                                          postModel.likes.contains(FirebaseAuth
-                                                      .instance
-                                                      .currentUser!
-                                                      .uid) ==
-                                                  true
-                                              ? FontAwesomeIcons.heartbeat
-                                              : FontAwesomeIcons.heart,
-                                          color: Colors.red,
-                                          size: ScreenUtil().setSp(
-                                            25,
+                                          //   widget.postModel.likes.contains(widget.userModel.uid) == true
+                                          //       ? FontAwesomeIcons.heartbeat
+                                          //       : FontAwesomeIcons.heart,
+                                          //   color: Colors.red,
+                                          //   size: ScreenUtil().setSp(
+                                          //     25,
+                                          //   ),
+                                          // ),
+                                          // ),
+                                          InkWell(
+                                            onLongPress: () {
+                                              LikeBottomSheet(
+                                                  context, postModel);
+                                            },
+                                            onTap: () {
+                                              // LikeDetailFirebase().like_unlike_profile(widget.postModel);
+                                              LikeDetailFirebase()
+                                                  .like_unlike(postModel);
+                                            },
+                                            child: Icon(
+                                              postModel.likes.contains(
+                                                          FirebaseAuth
+                                                              .instance
+                                                              .currentUser!
+                                                              .uid) ==
+                                                      true
+                                                  ? FontAwesomeIcons.heartbeat
+                                                  : FontAwesomeIcons.heart,
+                                              color: Colors.red,
+                                              size: ScreenUtil().setSp(
+                                                25,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: ScreenUtil().setSp(15),
-                                      ),
-                                      Text(
-                                        postModel.likeNumber.toString(),
-                                        style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(15),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: ScreenUtil().setSp(10),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          // CommentDetailFirebase().uploadDetail("comment", postModel);
-                                          CommentBottomSheet(
-                                              context, postModel);
-                                        },
-                                        icon: Icon(
-                                          FontAwesomeIcons.comment,
-                                          color: Colors.blue,
-                                          size: ScreenUtil().setSp(
-                                            25,
+                                          SizedBox(
+                                            width: ScreenUtil().setSp(15),
                                           ),
-                                        ),
+                                          Text(
+                                            postModel.likeNumber.toString(),
+                                            style: TextStyle(
+                                              fontSize: ScreenUtil().setSp(15),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: ScreenUtil().setSp(10),
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              // CommentDetailFirebase().uploadDetail("comment", postModel);
+                                              CommentBottomSheet(
+                                                  context, postModel);
+                                            },
+                                            icon: Icon(
+                                              FontAwesomeIcons.comment,
+                                              color: Colors.blue,
+                                              size: ScreenUtil().setSp(
+                                                25,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            postModel.commentNumber.toString(),
+                                            style: TextStyle(
+                                              fontSize: ScreenUtil().setSp(15),
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          Text(
+                                              timeago.format(
+                                                postModel.timestamp.toDate(),
+                                              ),
+                                              style: TimeAgoText),
+                                        ],
                                       ),
-                                      Text(
-                                        postModel.commentNumber.toString(),
-                                        style: TextStyle(
-                                          fontSize: ScreenUtil().setSp(15),
-                                        ),
-                                      ),
-                                      Spacer(),
-                                      Text(
-                                        timeago.format(
-                                          postModel.timestamp.toDate(),
-                                        ),
-                                        style: TextStyle(
-                                            color: Colors.grey[200],
-                                            fontSize: ScreenUtil().setSp(
-                                              12.5,
-                                            )),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Divider(),
-                              ],
-                            );
-                          });
-                    }
-                  }
-                  return Container();
-                }),
-            Spacer(
-              flex: 2,
+                                    ),
+                                    Divider(),
+                                  ],
+                                );
+                              });
+                        }
+                      }
+                      return Container();
+                    }),
+                Spacer(
+                  flex: 2,
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
   }
 
   void CommentBottomSheet(context, PostModel postModel) {
@@ -372,11 +371,11 @@ class _OurDetailImageTileState extends State<OurDetailImageTile> {
                                                               height:
                                                                   ScreenUtil()
                                                                       .setSp(
-                                                                          40),
+                                                                          50),
                                                               width:
                                                                   ScreenUtil()
                                                                       .setSp(
-                                                                          40),
+                                                                          50),
                                                               fit: BoxFit
                                                                   .fitHeight,
                                                               //   )
@@ -396,7 +395,7 @@ class _OurDetailImageTileState extends State<OurDetailImageTile> {
                                                                   fontSize:
                                                                       ScreenUtil()
                                                                           .setSp(
-                                                                    20,
+                                                                    25,
                                                                   ),
                                                                 ),
                                                               ),
@@ -413,14 +412,13 @@ class _OurDetailImageTileState extends State<OurDetailImageTile> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        commentModel.user_name,
-                                                        style: TextStyle(
-                                                          fontSize: ScreenUtil()
-                                                              .setSp(15),
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                      ),
+                                                          commentModel
+                                                              .user_name,
+                                                          style: MediumText
+                                                              .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                          )),
                                                       SizedBox(
                                                         height: ScreenUtil()
                                                             .setSp(5),
@@ -430,16 +428,9 @@ class _OurDetailImageTileState extends State<OurDetailImageTile> {
                                                         width: ScreenUtil()
                                                             .setSp(150),
                                                         child: Text(
-                                                          commentModel.comment,
-                                                          style: TextStyle(
-                                                            fontSize:
-                                                                ScreenUtil()
-                                                                    .setSp(
-                                                                        12.5),
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
-                                                        ),
+                                                            commentModel
+                                                                .comment,
+                                                            style: SmallText),
                                                       ),
                                                     ],
                                                   ),
@@ -452,13 +443,7 @@ class _OurDetailImageTileState extends State<OurDetailImageTile> {
                                                         commentModel.timestamp
                                                             .toDate(),
                                                       ),
-                                                      style: TextStyle(
-                                                          color:
-                                                              Colors.grey[200],
-                                                          fontSize: ScreenUtil()
-                                                              .setSp(
-                                                            12.5,
-                                                          )),
+                                                      style: TimeAgoText,
                                                     ),
                                                   ),
                                                 ],
@@ -475,6 +460,7 @@ class _OurDetailImageTileState extends State<OurDetailImageTile> {
                             return Center(
                               child: Text(
                                 "No comments",
+                                style: SmallText,
                               ),
                             );
                           }),
@@ -531,10 +517,6 @@ class _OurDetailImageTileState extends State<OurDetailImageTile> {
   }
 
   void LikeBottomSheet(context, PostModel postModel) {
-    List x = [];
-    postModel.likes.forEach((e) {
-      x.add(e);
-    });
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -557,91 +539,127 @@ class _OurDetailImageTileState extends State<OurDetailImageTile> {
                 Divider(),
                 OurSizedBox(),
                 Expanded(
-                  child: Column(
-                      children: x.map((item) {
-                    return StreamBuilder(
-                        stream: FirebaseFirestore.instance
-                            .collection("Users")
-                            .where("uid", isEqualTo: item)
-                            .snapshots(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          UserModel userModel =
-                              UserModel.fromJson(snapshot.data!.docs[0]);
-                          return Column(
-                            children: [
-                              Row(
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(
-                                      ScreenUtil().setSp(30),
-                                    ),
-                                    child: Container(
-                                      color: Colors.white,
-                                      child: userModel.profile_pic != ""
-                                          ? CachedNetworkImage(
-                                              imageUrl: userModel.profile_pic,
+                  child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection("Posts")
+                        .doc(postModel.postId)
+                        .collection("Likes")
+                        .snapshots(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data!.docs.length > 0) {
+                          return ListView.builder(
+                              itemCount: snapshot.data!.docs.length,
+                              itemBuilder: (context, index) {
+                                LikeModel likeModel = LikeModel.fromJson(
+                                    snapshot.data!.docs[index]);
 
-                                              // Image.network(
-                                              placeholder: (context, url) =>
-                                                  Image.asset(
-                                                "assets/images/profile_holder.png",
-                                              ),
-                                              height: ScreenUtil().setSp(40),
-                                              width: ScreenUtil().setSp(40),
-                                              fit: BoxFit.fitHeight,
-                                              //   )
-                                            )
-                                          : CircleAvatar(
-                                              backgroundColor: Colors.white,
-                                              radius: ScreenUtil().setSp(25),
-                                              child: Text(
-                                                userModel.user_name[0],
-                                                style: TextStyle(
-                                                  fontSize: ScreenUtil().setSp(
-                                                    20,
+                                return StreamBuilder(
+                                    stream: FirebaseFirestore.instance
+                                        .collection("Users")
+                                        .where("uid", isEqualTo: likeModel.uid)
+                                        .snapshots(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                                      if (snapshot.hasData) {
+                                        UserModel userModel =
+                                            UserModel.fromJson(
+                                                snapshot.data!.docs[0]);
+
+                                        return Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    ScreenUtil().setSp(30),
+                                                  ),
+                                                  child: Container(
+                                                    color: Colors.white,
+                                                    child: userModel
+                                                                .profile_pic !=
+                                                            ""
+                                                        ? CachedNetworkImage(
+                                                            imageUrl: userModel
+                                                                .profile_pic,
+
+                                                            // Image.network(
+                                                            placeholder:
+                                                                (context,
+                                                                        url) =>
+                                                                    Image.asset(
+                                                              "assets/images/profile_holder.png",
+                                                            ),
+                                                            height: ScreenUtil()
+                                                                .setSp(50),
+                                                            width: ScreenUtil()
+                                                                .setSp(50),
+                                                            fit: BoxFit
+                                                                .fitHeight,
+                                                            //   )
+                                                          )
+                                                        : CircleAvatar(
+                                                            backgroundColor:
+                                                                Colors.white,
+                                                            radius: ScreenUtil()
+                                                                .setSp(25),
+                                                            child: Text(
+                                                              userModel
+                                                                  .user_name[0],
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                    ScreenUtil()
+                                                                        .setSp(
+                                                                  25,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
                                                   ),
                                                 ),
-                                              ),
+                                                SizedBox(
+                                                  width: ScreenUtil().setSp(20),
+                                                ),
+                                                Container(
+                                                  width:
+                                                      ScreenUtil().setSp(250),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(userModel.user_name,
+                                                          style: MediumText
+                                                              .copyWith(
+                                                            fontWeight:
+                                                                FontWeight.w700,
+                                                          )),
+                                                      OurSizedBox(),
+                                                      Text(
+                                                        userModel.bio,
+                                                        style: SmallText,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: ScreenUtil().setSp(20),
-                                  ),
-                                  Container(
-                                    width: ScreenUtil().setSp(250),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          userModel.user_name,
-                                          style: TextStyle(
-                                            fontSize: ScreenUtil().setSp(15),
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        OurSizedBox(),
-                                        Text(
-                                          userModel.bio,
-                                          style: TextStyle(
-                                            fontSize: ScreenUtil().setSp(12.5),
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              OurSizedBox(),
-                              Divider(),
-                              OurSizedBox(),
-                            ],
-                          );
-                        });
-                  }).toList()),
+                                            OurSizedBox(),
+                                            Divider(),
+                                            OurSizedBox(),
+                                          ],
+                                        );
+                                      }
+                                      return Container();
+                                    });
+                              });
+                        }
+                        return Container();
+                      }
+                      return Container();
+                    },
+                  ),
                 )
               ],
             ),

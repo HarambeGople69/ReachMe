@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/services/authentication_service/email_password_service.dart';
+import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_elevated_button.dart';
 import 'package:myapp/widgets/our_password_field.dart';
 import 'package:myapp/widgets/our_sizedbox.dart';
@@ -47,13 +48,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   OurSizedBox(),
                   Center(
-                    child: Text(
-                      "Signup",
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(25),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    child: Text("Signup", style: boldText),
                   ),
                   OurSizedBox(),
                   CustomTextField(
@@ -137,24 +132,14 @@ class _SignUpPageState extends State<SignUpPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Already have an account? ",
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(
-                            17.5,
-                          ),
-                        ),
-                      ),
+                      Text("Already have an account? ", style: MediumText),
                       InkWell(
                         onTap: () {
                           Navigator.pop(context);
                         },
                         child: Text(
                           "Login.",
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setSp(
-                              17.5,
-                            ),
+                          style: MediumText.copyWith(
                             color: Colors.amber,
                           ),
                         ),

@@ -20,7 +20,7 @@ class _OuterWrapperState extends State<OuterWrapper> {
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return Wrapper(x: GetStorage().read("state") );
+          return Wrapper(x: GetStorage().read("state")??0 );
         } else {
           return LoginPage();
         }

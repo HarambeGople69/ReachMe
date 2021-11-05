@@ -9,6 +9,7 @@ import 'package:myapp/models/user_model.dart';
 import 'package:myapp/pages/screens/edit_profile_page.dart';
 import 'package:myapp/pages/screens/message.dart';
 import 'package:myapp/services/firestore/follow_unfollow_info_detail.dart';
+import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_follow_column.dart';
 import 'package:myapp/widgets/our_outline_button.dart';
 import 'package:myapp/widgets/our_post_tile.dart';
@@ -37,6 +38,7 @@ class _ViewProfileState extends State<ViewProfile> {
           elevation: 0,
           title: Text(
             widget.userModel.user_name,
+            style: AppBarText,
           ),
         ),
         body: SafeArea(
@@ -69,7 +71,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                   children: [
                                     Container(
                                       width: MediaQuery.of(context).size.width *
-                                          0.3,
+                                          0.25,
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -108,7 +110,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                                         style: TextStyle(
                                                           fontSize: ScreenUtil()
                                                               .setSp(
-                                                            20,
+                                                            25,
                                                           ),
                                                         ),
                                                       ),
@@ -120,7 +122,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.3,
+                                                0.25,
                                             child: Text(
                                               userModel.user_name,
                                               overflow: TextOverflow.ellipsis,
@@ -134,13 +136,12 @@ class _ViewProfileState extends State<ViewProfile> {
                                             width: MediaQuery.of(context)
                                                     .size
                                                     .width *
-                                                0.3,
+                                                0.25,
                                             child: Text(
                                               userModel.bio,
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                fontSize:
-                                                    ScreenUtil().setSp(12.5),
+                                              style: SmallText.copyWith(
+                                                fontWeight: FontWeight.w700,
                                               ),
                                             ),
                                           ),
@@ -149,12 +150,12 @@ class _ViewProfileState extends State<ViewProfile> {
                                     ),
                                     SizedBox(
                                       width: ScreenUtil().setSp(
-                                        15,
+                                        10,
                                       ),
                                     ),
                                     Container(
                                       width: MediaQuery.of(context).size.width *
-                                          0.55,
+                                          0.6,
                                       child: Column(
                                         children: [
                                           Row(
@@ -233,7 +234,10 @@ class _ViewProfileState extends State<ViewProfile> {
                                                                 MaterialPageRoute(
                                                                     builder:
                                                                         (context) {
-                                                              return Message(userModel: userModel,);
+                                                              return Message(
+                                                                userModel:
+                                                                    userModel,
+                                                              );
                                                             }));
                                                           },
                                                         ),
@@ -373,9 +377,7 @@ class _ViewProfileState extends State<ViewProfile> {
                             );
                           });
                     } else {
-                      return Center(
-                        child: Text("Cannot find"),
-                      );
+                      return Container();
                     }
                   }
                   return Center(
@@ -470,10 +472,10 @@ class _ViewProfileState extends State<ViewProfile> {
                                                                     ),
                                                                     height: ScreenUtil()
                                                                         .setSp(
-                                                                            40),
+                                                                            50),
                                                                     width: ScreenUtil()
                                                                         .setSp(
-                                                                            40),
+                                                                            50),
                                                                     fit: BoxFit
                                                                         .fitHeight,
                                                                     //   )
@@ -484,7 +486,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                                                             .white,
                                                                     radius: ScreenUtil()
                                                                         .setSp(
-                                                                            20),
+                                                                            25),
                                                                     child: Text(
                                                                       userModel
                                                                           .user_name[0],
@@ -492,7 +494,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                                                           TextStyle(
                                                                         fontSize:
                                                                             ScreenUtil().setSp(
-                                                                          20,
+                                                                          25,
                                                                         ),
                                                                       ),
                                                                     ),
@@ -512,33 +514,17 @@ class _ViewProfileState extends State<ViewProfile> {
                                                                     .start,
                                                             children: [
                                                               Text(
-                                                                userModel
-                                                                    .user_name,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      ScreenUtil()
-                                                                          .setSp(
-                                                                              15),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                              ),
+                                                                  userModel
+                                                                      .user_name,
+                                                                  style: MediumText
+                                                                      .copyWith(
+                                                                          fontWeight:
+                                                                              FontWeight.w700)),
                                                               OurSizedBox(),
                                                               Text(
-                                                                userModel.bio,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      ScreenUtil()
-                                                                          .setSp(
-                                                                              12.5),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                              ),
+                                                                  userModel.bio,
+                                                                  style:
+                                                                      SmallText),
                                                             ],
                                                           ),
                                                         ),
@@ -650,10 +636,10 @@ class _ViewProfileState extends State<ViewProfile> {
                                                                     ),
                                                                     height: ScreenUtil()
                                                                         .setSp(
-                                                                            40),
+                                                                            50),
                                                                     width: ScreenUtil()
                                                                         .setSp(
-                                                                            40),
+                                                                            50),
                                                                     fit: BoxFit
                                                                         .fitHeight,
                                                                     //   )
@@ -664,7 +650,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                                                             .white,
                                                                     radius: ScreenUtil()
                                                                         .setSp(
-                                                                            20),
+                                                                            25),
                                                                     child: Text(
                                                                       userModel
                                                                           .user_name[0],
@@ -672,7 +658,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                                                           TextStyle(
                                                                         fontSize:
                                                                             ScreenUtil().setSp(
-                                                                          20,
+                                                                          25,
                                                                         ),
                                                                       ),
                                                                     ),
@@ -692,33 +678,17 @@ class _ViewProfileState extends State<ViewProfile> {
                                                                     .start,
                                                             children: [
                                                               Text(
-                                                                userModel
-                                                                    .user_name,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      ScreenUtil()
-                                                                          .setSp(
-                                                                              15),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                              ),
+                                                                  userModel
+                                                                      .user_name,
+                                                                  style: MediumText
+                                                                      .copyWith(
+                                                                          fontWeight:
+                                                                              FontWeight.w700)),
                                                               OurSizedBox(),
                                                               Text(
-                                                                userModel.bio,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      ScreenUtil()
-                                                                          .setSp(
-                                                                              12.5),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                              ),
+                                                                  userModel.bio,
+                                                                  style:
+                                                                      SmallText),
                                                             ],
                                                           ),
                                                         ),

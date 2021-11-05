@@ -4,19 +4,16 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:myapp/models/post_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/services/authentication_service/email_password_service.dart';
 import 'package:myapp/services/firestore/follow_unfollow_info_detail.dart';
+import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_follow_column.dart';
 import 'package:myapp/widgets/our_outline_button.dart';
 import 'package:myapp/widgets/our_post_tile.dart';
-import 'package:myapp/widgets/our_profile_header.dart';
-import 'package:myapp/widgets/our_profile_tile.dart';
 import 'package:myapp/widgets/our_sizedbox.dart';
-
 import 'edit_profile_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -33,12 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
-          "ReachMe",
-          style: TextStyle(
-            fontSize: ScreenUtil().setSp(30),
-          ),
-        ),
+        title: Text("ReachMe", style: AppBarText),
         centerTitle: true,
         actions: [
           ElevatedButton(
@@ -127,7 +119,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       style: TextStyle(
                                                         fontSize:
                                                             ScreenUtil().setSp(
-                                                          20,
+                                                          25,
                                                         ),
                                                       ),
                                                     ),
@@ -140,27 +132,22 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   .size
                                                   .width *
                                               0.3,
-                                          child: Text(
-                                            userModel.user_name,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontSize: ScreenUtil().setSp(15),
-                                            ),
-                                          ),
+                                          child: Text(userModel.user_name,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: MediumText.copyWith(
+                                                fontWeight: FontWeight.w700,
+                                              )),
                                         ),
                                         Container(
                                           width: MediaQuery.of(context)
                                                   .size
                                                   .width *
                                               0.3,
-                                          child: Text(
-                                            userModel.bio,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                              fontSize:
-                                                  ScreenUtil().setSp(12.5),
-                                            ),
-                                          ),
+                                          child: Text(userModel.bio,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: SmallText.copyWith(
+                                                fontWeight: FontWeight.w700,
+                                              )),
                                         ),
                                       ],
                                     ),
@@ -246,8 +233,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                   ? StreamBuilder(
                                       stream: FirebaseFirestore.instance
                                           .collection("Posts")
-                                          // .where("ownerId",
-                                          //     isEqualTo: userModel.uid)
                                           .orderBy("timestamp",
                                               descending: true)
                                           .snapshots(),
@@ -277,12 +262,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       : Container();
                                                 });
                                           }
-                                          return Container(
-                                            child: Lottie.asset(
-                                                'assets/animations/post.json',
-                                                fit: BoxFit.cover,
-                                                height: 250.h,
-                                                width: 350.h),
+                                          return Center(
+                                            child: Container(
+                                              child: Lottie.asset(
+                                                  'assets/animations/post.json',
+                                                  fit: BoxFit.cover,
+                                                  height: 250.h,
+                                                  width: 350.h),
+                                            ),
                                           );
                                         } else {
                                           return Container(
@@ -397,10 +384,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                     ),
                                                                     height: ScreenUtil()
                                                                         .setSp(
-                                                                            40),
+                                                                            50),
                                                                     width: ScreenUtil()
                                                                         .setSp(
-                                                                            40),
+                                                                            50),
                                                                     fit: BoxFit
                                                                         .fitHeight,
                                                                     //   )
@@ -411,7 +398,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                             .white,
                                                                     radius: ScreenUtil()
                                                                         .setSp(
-                                                                            20),
+                                                                            25),
                                                                     child: Text(
                                                                       userModel
                                                                           .user_name[0],
@@ -419,7 +406,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                           TextStyle(
                                                                         fontSize:
                                                                             ScreenUtil().setSp(
-                                                                          20,
+                                                                          25,
                                                                         ),
                                                                       ),
                                                                     ),
@@ -439,33 +426,19 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                     .start,
                                                             children: [
                                                               Text(
-                                                                userModel
-                                                                    .user_name,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      ScreenUtil()
-                                                                          .setSp(
-                                                                              15),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                              ),
+                                                                  userModel
+                                                                      .user_name,
+                                                                  style: MediumText
+                                                                      .copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w700,
+                                                                  )),
                                                               OurSizedBox(),
                                                               Text(
-                                                                userModel.bio,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      ScreenUtil()
-                                                                          .setSp(
-                                                                              12.5),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                              ),
+                                                                  userModel.bio,
+                                                                  style:
+                                                                      SmallText),
                                                             ],
                                                           ),
                                                         ),
@@ -483,7 +456,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         }
                         return Container();
                       }
-                      return Container();
+                      return CircularProgressIndicator();
                     },
                   ),
                 )
@@ -578,10 +551,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                     ),
                                                                     height: ScreenUtil()
                                                                         .setSp(
-                                                                            40),
+                                                                            50),
                                                                     width: ScreenUtil()
                                                                         .setSp(
-                                                                            40),
+                                                                            50),
                                                                     fit: BoxFit
                                                                         .fitHeight,
                                                                     //   )
@@ -592,7 +565,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                             .white,
                                                                     radius: ScreenUtil()
                                                                         .setSp(
-                                                                            20),
+                                                                            25),
                                                                     child: Text(
                                                                       userModel
                                                                           .user_name[0],
@@ -600,7 +573,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                           TextStyle(
                                                                         fontSize:
                                                                             ScreenUtil().setSp(
-                                                                          20,
+                                                                          25,
                                                                         ),
                                                                       ),
                                                                     ),
@@ -620,33 +593,17 @@ class _ProfilePageState extends State<ProfilePage> {
                                                                     .start,
                                                             children: [
                                                               Text(
-                                                                userModel
-                                                                    .user_name,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      ScreenUtil()
-                                                                          .setSp(
-                                                                              15),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                              ),
+                                                                  userModel
+                                                                      .user_name,
+                                                                  style: MediumText
+                                                                      .copyWith(
+                                                                          fontWeight:
+                                                                              FontWeight.w700)),
                                                               OurSizedBox(),
                                                               Text(
-                                                                userModel.bio,
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontSize:
-                                                                      ScreenUtil()
-                                                                          .setSp(
-                                                                              12.5),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                              ),
+                                                                  userModel.bio,
+                                                                  style:
+                                                                      SmallText),
                                                             ],
                                                           ),
                                                         ),
@@ -664,7 +621,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         }
                         return Container();
                       }
-                      return Container();
+                      return CircularProgressIndicator();
                     },
                   ),
                 )

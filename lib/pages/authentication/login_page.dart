@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:myapp/pages/authentication/signup_page.dart';
 import 'package:myapp/services/authentication_service/email_password_service.dart';
 import 'package:myapp/services/authentication_service/google_login_service.dart';
+import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_elevated_button.dart';
 import 'package:myapp/widgets/our_password_field.dart';
 import 'package:myapp/widgets/our_sizedbox.dart';
@@ -40,17 +41,14 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Image.asset(
                     "assets/images/logo.png",
-                    height: ScreenUtil().setSp(200),
-                    width: ScreenUtil().setSp(200),
+                    height: ScreenUtil().setSp(250),
+                    width: ScreenUtil().setSp(250),
                   ),
                   OurSizedBox(),
                   Center(
                     child: Text(
                       "Login",
-                      style: TextStyle(
-                        fontSize: ScreenUtil().setSp(25),
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: boldText,
                     ),
                   ),
                   OurSizedBox(),
@@ -107,58 +105,17 @@ class _LoginPageState extends State<LoginPage> {
                       }
                     },
                   ),
-                  OurSizedBox(),
-                  Text(
-                    "Or continue with",
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(
-                        17,
-                      ),
+
+                  SizedBox(
+                    height: ScreenUtil().setSp(
+                      30,
                     ),
                   ),
-                  OurSizedBox(),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   children: [
-                  //     InkWell(
-                  //       onTap: () {
-                  //         // signInWithGoogle();
-                  //         GoogleSigninService().signIn(context);
-                  //       },
-                  //       child: Image.asset(
-                  //         "assets/images/google.png",
-                  //         height: ScreenUtil().setSp(55),
-                  //         width: ScreenUtil().setSp(55),
-                  //         fit: BoxFit.cover,
-                  //       ),
-                  //     ),
-                  //     Image.asset(
-                  //       "assets/images/fbook.png",
-                  //       height: ScreenUtil().setSp(55),
-                  //       width: ScreenUtil().setSp(55),
-                  //       fit: BoxFit.cover,
-                  //     ),
-                  //   ],
-                  // ),
 
-                  Image.asset(
-                    "assets/images/google.png",
-                    height: ScreenUtil().setSp(55),
-                    width: ScreenUtil().setSp(55),
-                    fit: BoxFit.cover,
-                  ),
-                  OurSizedBox(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Don't have an account? ",
-                        style: TextStyle(
-                          fontSize: ScreenUtil().setSp(
-                            17.5,
-                          ),
-                        ),
-                      ),
+                      Text("Don't have an account? ", style: MediumText),
                       InkWell(
                         onTap: () {
                           Navigator.push(context,
@@ -168,10 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         child: Text(
                           "Sign up.",
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setSp(
-                              17.5,
-                            ),
+                          style: MediumText.copyWith(
                             color: Colors.amber,
                           ),
                         ),

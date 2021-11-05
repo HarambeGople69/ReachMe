@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:myapp/models/notification_model.dart';
 import 'package:myapp/pages/screens/view_profile.dart';
+import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_like_comment_notification_tile.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -25,9 +26,7 @@ class _NotificationPageState extends State<NotificationPage> {
         elevation: 0,
         title: Text(
           "Notification",
-          style: TextStyle(
-            fontSize: ScreenUtil().setSp(30),
-          ),
+          style: AppBarText,
         ),
         centerTitle: true,
       ),
@@ -82,9 +81,9 @@ class _NotificationPageState extends State<NotificationPage> {
                                                       fit: BoxFit.cover,
                                                     ),
                                                     height:
-                                                        ScreenUtil().setSp(40),
+                                                        ScreenUtil().setSp(50),
                                                     width:
-                                                        ScreenUtil().setSp(40),
+                                                        ScreenUtil().setSp(50),
                                                     fit: BoxFit.contain,
                                                     //   )
                                                   )
@@ -92,7 +91,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                                     backgroundColor:
                                                         Colors.white,
                                                     radius:
-                                                        ScreenUtil().setSp(20),
+                                                        ScreenUtil().setSp(25),
                                                     child: Text(
                                                       notificationModel
                                                           .senderName[0],
@@ -113,14 +112,10 @@ class _NotificationPageState extends State<NotificationPage> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Text(
-                                              notificationModel.senderName,
-                                              style: TextStyle(
-                                                fontSize:
-                                                    ScreenUtil().setSp(15),
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
+                                            Text(notificationModel.senderName,
+                                                style: MediumText.copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                )),
                                             SizedBox(
                                               height: ScreenUtil().setSp(5),
                                             ),
@@ -128,11 +123,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                               width: ScreenUtil().setSp(230),
                                               child: Text(
                                                 "followed you",
-                                                style: TextStyle(
-                                                  fontSize:
-                                                      ScreenUtil().setSp(12.5),
-                                                  fontWeight: FontWeight.w600,
-                                                ),
+                                                style: SmallText,
                                               ),
                                             ),
                                             SizedBox(
@@ -145,12 +136,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                                   notificationModel.timestamp
                                                       .toDate(),
                                                 ),
-                                                style: TextStyle(
-                                                    color: Colors.grey[200],
-                                                    fontSize:
-                                                        ScreenUtil().setSp(
-                                                      12.5,
-                                                    )),
+                                                style: TimeAgoText,
                                               ),
                                             ),
                                           ],
@@ -166,7 +152,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   } else {
                     return Center(
                       child: Lottie.asset('assets/animations/notification.json',
-                          fit: BoxFit.cover, height: 200.h, width: 200.h),
+                          fit: BoxFit.cover, height: 250.h, width: 250.h),
                     );
                   }
                 }

@@ -54,7 +54,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
       style: TextStyle(fontSize: ScreenUtil().setSp(15)),
       keyboardType: widget.type,
       maxLines: widget.length,
+      
       decoration: InputDecoration(
+        
         isDense: true,
         labelText: widget.title,
         // enabledBorder: InputBorder.none,
@@ -65,6 +67,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             ),
           ),
         ),
+        
 
         labelStyle: TextStyle(
           fontSize: ScreenUtil().setSp(

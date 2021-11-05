@@ -7,6 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:myapp/models/post_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/pages/screens/messager_home.dart';
+import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_elevated_button.dart';
 import 'package:myapp/widgets/our_post_tile.dart';
 import 'package:myapp/widgets/our_sizedbox.dart';
@@ -31,12 +32,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
-          "My Feeds",
-          style: TextStyle(
-            fontSize: ScreenUtil().setSp(30),
-          ),
-        ),
+        title: Text("My Feeds", style: AppBarText),
         centerTitle: true,
         actions: [
           IconButton(
@@ -123,11 +119,7 @@ class _HomePageState extends State<HomePage> {
                                                 });
                                           } else {
                                             return Expanded(
-                                              child: Container(
-                                                child: Text(
-                                                  "Hello",
-                                                ),
-                                              ),
+                                              child: Container(),
                                             );
                                           }
                                         } else {

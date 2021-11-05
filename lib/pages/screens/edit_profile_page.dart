@@ -9,6 +9,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/services/check%20peserved%20name/check_reserved_name.dart';
 import 'package:myapp/services/firebase%20storage/user_info_storage.dart';
+import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_elevated_button.dart';
 import 'package:myapp/widgets/our_outline_button.dart';
 import 'package:myapp/widgets/our_sizedbox.dart';
@@ -79,7 +80,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Edit profile"),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          title: Text(
+            "Edit profile",
+            style: AppBarText,
+          ),
           centerTitle: true,
         ),
         body: ModalProgressHUD(

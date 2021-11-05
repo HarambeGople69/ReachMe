@@ -1,16 +1,11 @@
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:myapp/pages/screens/addpost_page.dart';
 import 'package:myapp/pages/screens/home_page.dart';
 import 'package:myapp/pages/screens/notification.dart';
 import 'package:myapp/pages/screens/profile_page.dart';
 import 'package:myapp/pages/screens/search_page.dart';
-import 'package:myapp/services/authentication_service/email_password_service.dart';
-import 'package:myapp/services/authentication_service/google_login_service.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class DashBoard extends StatefulWidget {
   @override
@@ -18,13 +13,11 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-  PersistentTabController? _controller;
   bool? _hideNavBar;
 
   @override
   void initState() {
     super.initState();
-    _controller = PersistentTabController(initialIndex: 0);
     _hideNavBar = false;
   }
 
@@ -60,38 +53,61 @@ class _DashBoardState extends State<DashBoard> {
           child: Container(
         child: show_page,
       )),
-      bottomNavigationBar: ConvexAppBar(
-        style: TabStyle.fixed,
-        backgroundColor: Colors.purple[300],
-        items: [
-          TabItem(
-            icon: Icons.home,
-            title: 'Home',
+      bottomNavigationBar: StyleProvider(
+        style: Style(),
+        child: ConvexAppBar(
+          // curveSize: ScreenUtil().setSp(100),
+          height: ScreenUtil().setSp(
+            60,
           ),
-          TabItem(
-            icon: Icons.search,
-            title: 'Search',
-          ),
-          TabItem(
-            icon: Icons.add,
-            title: 'Add',
-          ),
-          TabItem(
-            icon: Icons.notification_important,
-            title: 'Notification',
-          ),
-          TabItem(
-            icon: Icons.people,
-            title: 'Profile',
-          ),
-        ],
-        onTap: (int i) {
-          setState(() {
-            index = i;
-            show_page = check_postion(index);
-          });
-        },
+          style: TabStyle.fixed,
+          backgroundColor: Colors.purple[300],
+          items: [
+            TabItem(
+              icon: Icons.home,
+              title: 'Home',
+            ),
+            TabItem(
+              icon: Icons.search,
+              title: 'Search',
+            ),
+            TabItem(
+              icon: Icons.add,
+              title: 'Add',
+            ),
+            TabItem(
+              icon: Icons.notification_important,
+              title: 'Notification',
+            ),
+            TabItem(
+              icon: Icons.people,
+              title: 'Profile',
+            ),
+          ],
+          onTap: (int i) {
+            setState(() {
+              index = i;
+              show_page = check_postion(index);
+            });
+          },
+        ),
       ),
     );
+  }
+}
+
+class Style extends StyleHook {
+  @override
+  double get activeIconSize => ScreenUtil().setSp(45);
+
+  @override
+  double get activeIconMargin => ScreenUtil().setSp(0);
+
+  @override
+  double get iconSize => ScreenUtil().setSp(30);
+
+  @override
+  TextStyle textStyle(Color color) {
+    return TextStyle(fontSize: ScreenUtil().setSp(13.5), color: color);
   }
 }
