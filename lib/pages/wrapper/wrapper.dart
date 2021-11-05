@@ -21,29 +21,12 @@ class _WrapperState extends State<Wrapper> {
   String name = "";
 
   Widget checkname() {
-    print("$x is the state=============================");
     if (widget.x == 0) {
       return DashBoard();
     } else {
       return UserInfoPage();
     }
   }
-
-  getState() async {
-    final box = GetStorage();
-    setState(() {
-      x = box.read("state");
-    });
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getState();
-  }
-
-  late int x;
 
   @override
   Widget build(BuildContext context) {

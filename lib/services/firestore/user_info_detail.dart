@@ -33,29 +33,14 @@ class UserDetailFirestore {
           .collection("Users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({
-        // "about": bio,
-        // "activity": [],
-        // "connection_request": [],
-        // "connections": {},
-        // "creation_date": currDate,
-        // "creation_time": currTime,
-        // "phone_number": "",
-        // "profile_pic": "",
-        // "token": _getToken.toString(),
-        // "total_connections": "",
-        // "user_name": name,
+        
         "uid": FirebaseAuth.instance.currentUser!.uid,
         "bio": bio,
-        // "activity": [],
-        // "connection_request": [],
-        // "connections": {},
-        // "creation_date": currDate,
-        // "creation_time": currTime,
+        
         "created_on": Timestamp.now(),
         "phone_number": "",
         "profile_pic": imageUrl,
-        // "token": _getToken.toString(),
-        // "total_connections": "",
+        
         "user_name": name,
       }).then((value) {
         Navigator.pop(context);
