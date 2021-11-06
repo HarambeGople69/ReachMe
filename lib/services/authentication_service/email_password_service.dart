@@ -43,7 +43,7 @@ class EmailPasswordAuth {
       //   "user_name": "",
       // });
       await UserUploadInjection().registerInjection();
-      await UserDetailFirestore().initializeDetail().then((value) async {
+      await UserDetailFirestore().initializeDetail(email, password).then((value) async {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(

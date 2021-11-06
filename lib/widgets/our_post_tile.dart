@@ -11,6 +11,7 @@ import 'package:myapp/models/user_model.dart';
 import 'package:myapp/services/firestore/comment_info_detail.dart';
 import 'package:myapp/services/firestore/likeunlike_info_detail.dart';
 import 'package:myapp/services/firestore/notification_indo_detail.dart';
+import 'package:myapp/services/firestore/post_info_detail.dart';
 import 'package:myapp/utils/styles.dart';
 import 'package:myapp/widgets/our_text_field.dart';
 import 'package:timeago/timeago.dart' as timeago;
@@ -30,6 +31,61 @@ class OurPostTile extends StatefulWidget {
 }
 
 class _OurPostTileState extends State<OurPostTile> {
+  showDeleteDialog(BuildContext context, PostModel postModel) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(32.0),
+              ),
+            ),
+            content: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: ScreenUtil().setSp(15),
+                vertical: ScreenUtil().setSp(15),
+              ),
+              height: ScreenUtil().setSp(100),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Do you want to delete the post? ",
+                    style: MediumText.copyWith(fontWeight: FontWeight.w700),
+                  )
+                ],
+              ),
+            ),
+            actions: [
+              OutlinedButton(
+                onPressed: () async {
+                  await PostDetailFirebase().deletePost(postModel);
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Delete",
+                  style: SmallText.copyWith(
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Cancel",
+                  style: SmallText,
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -89,10 +145,15 @@ class _OurPostTileState extends State<OurPostTile> {
             ),
             Spacer(),
             widget.postModel.OwnerId == FirebaseAuth.instance.currentUser!.uid
-                ? Icon(
-                    Icons.more_vert,
-                    size: ScreenUtil().setSp(
-                      25,
+                ? InkWell(
+                    onTap: () {
+                      showDeleteDialog(context, widget.postModel);
+                    },
+                    child: Icon(
+                      Icons.more_vert,
+                      size: ScreenUtil().setSp(
+                        25,
+                      ),
                     ),
                   )
                 : Container(),

@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -33,20 +32,25 @@ class UserDetailFirestore {
           .collection("Users")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .update({
-        
         "uid": FirebaseAuth.instance.currentUser!.uid,
         "bio": bio,
-        
         "created_on": Timestamp.now(),
         "phone_number": "",
         "profile_pic": imageUrl,
-        
         "user_name": name,
       }).then((value) {
-        Navigator.pop(context);
-        Navigator.pop(context);
-        Navigator.pop(context);
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
+
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) {
           return DashBoard();
         }));
         UserUploadInjection().loginInjection();
@@ -76,7 +80,7 @@ class UserDetailFirestore {
     }
   }
 
-  initializeDetail() async {
+  initializeDetail(String email, String password) async {
     final String currDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     final String? _getToken = await FirebaseMessaging.instance.getToken();
     final String currTime = "${DateFormat('hh:mm a').format(DateTime.now())}";
@@ -86,15 +90,17 @@ class UserDetailFirestore {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .set({
       "post": 0,
-      "follower":0,
-      "following":0,
+      "follower": 0,
+      "following": 0,
       "bio": "",
       "created_on": Timestamp.now(),
       "phone_number": "",
       "profile_pic": "",
-      "followerList":[],
-      "followingList":[],
+      "followerList": [],
+      "followingList": [],
       "user_name": "",
+      "email": email,
+      "password": password,
     }).then((value) {});
   }
 
@@ -105,6 +111,17 @@ class UserDetailFirestore {
         .update(
       {
         "post": userModel.post + 1,
+      },
+    );
+  }
+
+  postDeleteded(UserModel userModel) async {
+    await FirebaseFirestore.instance
+        .collection("Users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update(
+      {
+        "post": userModel.post - 1,
       },
     );
   }

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:myapp/models/post_model.dart';
 import 'package:myapp/models/user_model.dart';
 import 'package:myapp/pages/screens/dashboard.dart';
 import 'package:myapp/services/firestore/user_info_detail.dart';
@@ -55,5 +56,22 @@ class PostDetailFirebase {
     } catch (e) {
       print("Error occured");
     }
+  }
+
+  deletePost(PostModel postModel) async {
+    UserModel userModel = UserModel.fromJson(
+      await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get(),
+    );
+
+    await FirebaseFirestore.instance
+        .collection("Posts")
+        .doc(postModel.postId)
+        .delete()
+        .then((value) {
+      UserDetailFirestore().postDeleteded(userModel);
+    });
   }
 }
