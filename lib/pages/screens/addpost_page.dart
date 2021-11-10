@@ -14,6 +14,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:open_settings/open_settings.dart';
 import 'package:permission_handler/permission_handler.dart';
+// import 'package:location_permissions/location_permissions.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({Key? key}) : super(key: key);
@@ -35,7 +36,7 @@ class _AddPostState extends State<AddPost> {
     PermissionStatus _status = await _permission.request();
 
     if (!_status.isGranted) {
-      await Permission.location.request();
+      await Permission.storage.request();
     }
     if (_status.isPermanentlyDenied) {
       AppSettings.openAppSettings();
@@ -58,42 +59,48 @@ class _AddPostState extends State<AddPost> {
     }
   }
 
-  getUserLocation() async {
-    var status = await Permission.location.status;
-
-    if (!status.isGranted) {
+  pickLocation() async {
+    Permission _permission = Permission.location;
+    PermissionStatus _status = await _permission.request();
+    if (!_status.isGranted) {
       await Permission.location.request();
+    } else {
+      print("Granted hau granted");
     }
+  }
+
+  getUserLocation() async {
+    Permission _permission = Permission.location;
+    PermissionStatus _status = await _permission.request();
     if (await Permission.location.isPermanentlyDenied) {
       // The user opted to never again see the permission request dialog for this
       // app. The only way to change the permission's status now is to let the
       // user manually enable it in the system settings.
       openAppSettings();
     }
+    if (!_status.isGranted) {
+      await Permission.location.request();
+    } else {
+      try {
+        Position position = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.high);
 
-    try {
-      // if (permission == LocationPermission.deniedForever) {
-      //  getUserLocation();
-      // }
+        List<Placemark> placemarks = await placemarkFromCoordinates(
+            position.latitude, position.longitude);
+        // print(placemarks);
+        // print("============================");
+        Placemark placemark = placemarks[0];
+        print(placemark.country);
 
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.high);
+        Placemark placemark2 = placemarks[2];
 
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(position.latitude, position.longitude);
-      // print(placemarks);
-      // print("============================");
-      Placemark placemark = placemarks[0];
-      print(placemark.country);
-
-      Placemark placemark2 = placemarks[2];
-
-      setState(() {
-        currentAddress = "${placemark2.name}, ${placemark.country}";
-      });
-      print(currentAddress);
-      print("===================");
-    } catch (e) {}
+        setState(() {
+          currentAddress = "${placemark2.name}, ${placemark.country}";
+        });
+        print(currentAddress);
+        print("===================");
+      } catch (e) {}
+    }
   }
 
   @override

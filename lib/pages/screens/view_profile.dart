@@ -141,7 +141,7 @@ class _ViewProfileState extends State<ViewProfile> {
                                               userModel.bio,
                                               overflow: TextOverflow.ellipsis,
                                               style: SmallText.copyWith(
-                                                fontWeight: FontWeight.w700,
+                                                fontWeight: FontWeight.w400,
                                               ),
                                             ),
                                           ),
